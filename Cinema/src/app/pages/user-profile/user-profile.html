@@ -1,1 +1,114 @@
-<p>user-profile works!</p>
+<div class="profile-wrapper">
+  
+  <!-- Welcome Header -->
+  <div class="welcome-header">
+    <h1 class="welcome-title">Welcome<br>back, {{ firstName }}.</h1>
+    <p class="welcome-subtitle">
+      You have {{ upcomingScreeningsCount }} upcoming screenings<br>
+      this week. Ready for the show?
+    </p>
+  </div>
+
+  <!-- Profile Card -->
+  <section class="profile-card">
+    <div class="avatar-container">
+      <img [src]="avatarUrl" alt="Avatar" class="avatar-img">
+      <button class="edit-btn">
+        <img [src]="editIcon" alt="Edit">
+      </button>
+    </div>
+    <h2 class="profile-name">{{ userName }}</h2>
+    <div *ngIf="isVip" class="vip-badge">VIP Member</div>
+    <div class="points-info">
+      <img [src]="starIcon" alt="Points">
+      <span>{{ points }} Points</span>
+    </div>
+  </section>
+
+  <!-- My Bookings -->
+  <section class="bookings-section">
+    <div class="section-header">
+      <h2 class="section-title">My Bookings</h2>
+      <div class="nav-arrows">
+        <button class="arrow-btn" aria-label="Previous">&lt;</button>
+        <button class="arrow-btn" aria-label="Next">&gt;</button>
+      </div>
+    </div>
+
+    <div class="bookings-grid">
+      <div class="booking-card" *ngFor="let booking of myBookings">
+        <div class="booking-poster">
+          <img [src]="booking.posterUrl" [alt]="booking.movieTitle">
+          <!-- Background QR code mockup -->
+          <div class="qr-mockup"></div>
+        </div>
+        
+        <div class="booking-details">
+          <h3 class="movie-title">{{ booking.movieTitle }}</h3>
+          <div class="detail-row">
+            <img [src]="calendarIcon" alt="Date">
+            <span>{{ booking.date }}</span>
+          </div>
+          <div class="detail-row">
+            <img [src]="clockIcon" alt="Time">
+            <span>{{ booking.timeAndScreen }}</span>
+          </div>
+          <div class="detail-row">
+            <img [src]="seatIcon" alt="Seats">
+            <span>{{ booking.seats }}</span>
+          </div>
+          
+          <div class="booking-actions">
+            <app-button 
+              label="View Ticket" 
+              variant="primary" 
+              (btnClick)="onViewTicket(booking.id)">
+            </app-button>
+            <button class="cancel-btn" (click)="onCancelBooking(booking.id)" aria-label="Cancel Booking">
+              &times;
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking History -->
+  <section class="history-section">
+    <h2 class="section-title">Booking History</h2>
+    
+    <div class="history-card">
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th class="hide-mobile">MOVIE</th>
+            <th>DATE</th>
+            <th>VENUE</th>
+            <th>AMOUNT</th>
+            <th class="hide-mobile">STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of bookingHistory">
+            <td class="hide-mobile font-semibold">{{ item.movieTitle }}</td>
+            <td class="text-sm">
+              <div class="date-cell">{{ item.date }}</div>
+            </td>
+            <td class="text-sm venue-cell">{{ item.venue }}</td>
+            <td class="font-bold">${{ item.amount | number:'1.2-2' }}</td>
+            <td class="hide-mobile">
+              <span class="status-badge" [ngClass]="item.status === 'Completed' ? 'status-completed' : 'status-refunded'">
+                {{ item.status }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="load-more-container">
+      <button class="load-more-btn" (click)="onLoadMoreHistory()">Load More History</button>
+    </div>
+  </section>
+
+</div>
