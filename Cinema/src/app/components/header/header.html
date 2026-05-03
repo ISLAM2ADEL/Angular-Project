@@ -16,12 +16,18 @@
       <button class="icon-btn">
         <img src="theme icon.svg">
       </button>
+      @if(isUserLoggedIn) {
+        <a class="nav-item"   (click)="logOut()">
+        <img src="logout-02.svg"> Logout
+      </a>
+      } @else {
       <a class="nav-item" routerLink="/sign-up">
         <img src="sign up icon.svg"> Sign Up
       </a>
       <a class="nav-item" routerLink="/sign-in">
         <img src="log in icon.svg"> Login
       </a>
+    }
     </div>
   </div>
 </header>
