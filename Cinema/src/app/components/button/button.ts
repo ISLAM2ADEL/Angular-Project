@@ -7,7 +7,10 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './button.html',
   styleUrl: './button.css',
-  host: { '[style.display]': '"block"' },
+  host: {
+  '[style.display]': '"block"',
+  '[style.width]': 'fullWidth() ? "100%" : "fit-content"',
+},
 })
 export class Button {
   label = input('');
