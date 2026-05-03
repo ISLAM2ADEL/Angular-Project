@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Button } from '../../components/button/button';
 import { Header } from "../../components/header/header";
+import { Footer } from "../../components/footer/footer";
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, Button, Header],
+  imports: [CommonModule, Button],
   templateUrl: './checkout.html',
   styleUrl: './checkout.css',
 })
