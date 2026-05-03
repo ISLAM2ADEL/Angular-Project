@@ -1,16 +1,16 @@
 .seat {
-  width: 40px;
-  height: 40px;
+  width: 100%;
+  max-width: 40px;
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
+  background-color: var(--btn-clicked);
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   transition: all 0.3s ease;
-  background-color: var(--btn-clicked);
-  box-shadow: var(--inner-shadow-dark);
+  margin: 0 auto;
 }
-
 .seat.taken {
   background-color: var(--unavailable-seat);
   box-shadow: var(--inner-shadow);
@@ -35,8 +35,8 @@
 
 @media (max-width: 768px) {
   .seat {
-    width: 35px;
-    height: 35px;
+    width: min(26px, calc((100vw - 77px) / 8));
+    height: min(26px, calc((100vw - 77px) / 8));
   }
 
   .check-mark {
@@ -46,8 +46,8 @@
 
 @media (max-width: 480px) {
   .seat {
-    width: 30px;
-    height: 30px;
+    width: min(18px, calc((100vw - 184px) / 8));
+    height: min(18px, calc((100vw - 184px) / 8));
   }
 
   .check-mark {

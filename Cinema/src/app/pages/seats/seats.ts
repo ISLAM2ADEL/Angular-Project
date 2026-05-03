@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { signal } from '@angular/core';
 import { Seat } from "../../components/seat/seat";
+import { Button } from "../../components/button/button";
 
 @Component({
   selector: 'app-seats',
-  imports: [Seat],
+  imports: [Seat, Button],
   templateUrl: './seats.html',
   styleUrl: './seats.css',
 })
