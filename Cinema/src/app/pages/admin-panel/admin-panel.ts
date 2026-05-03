@@ -3,12 +3,15 @@ import { ChartConfiguration, ChartData, ChartType, Chart, registerables } from '
 import { BaseChartDirective } from 'ng2-charts';
 import { StatCard } from "../../components/stat-card/stat-card";
 import { RouterLink } from "@angular/router";
+import { AddMovie } from "../../components/add-movie/add-movie";
+import { EditMovie } from "../../components/edit-movie/edit-movie";
+import { CommonModule } from "@angular/common";
 
 Chart.register(...registerables);
 
 @Component({
   selector: 'app-admin-panel',
-  imports: [StatCard, BaseChartDirective],
+  imports: [StatCard, BaseChartDirective, AddMovie, EditMovie, CommonModule],
   templateUrl: './admin-panel.html',
   styleUrl: './admin-panel.css',
 })
@@ -85,7 +88,9 @@ export class AdminPanel {
       genre: 'Sci-Fi',
       releaseDate: 'Oct 12, 2024',
       status: 'Showing',
-      thumbnail: '/spiderman.jpg'
+      thumbnail: '/spiderman.jpg',
+      description: 'A deep dive into the mysteries of the night.',
+      showTimes: ['10:00 AM', '04:00 PM']
     },
     {
       title: 'The Silent Echo',
@@ -94,7 +99,9 @@ export class AdminPanel {
       genre: 'Thriller',
       releaseDate: 'Sep 28, 2024',
       status: 'Showing',
-      thumbnail: '/spiderman.jpg'
+      thumbnail: '/spiderman.jpg',
+      description: 'The silence holds secrets no one wants to hear.',
+      showTimes: ['01:00 PM', '07:00 PM']
     },
     {
       title: 'Skyward Bound',
@@ -103,7 +110,9 @@ export class AdminPanel {
       genre: 'Animation',
       releaseDate: 'Nov 05, 2024',
       status: 'Upcoming',
-      thumbnail: '/spiderman.jpg'
+      thumbnail: '/spiderman.jpg',
+      description: 'A journey beyond the clouds.',
+      showTimes: ['10:00 AM', '01:00 PM']
     }
   ];
 
@@ -113,4 +122,26 @@ export class AdminPanel {
     { title: 'Midnight Runner', occupancy: 42 },
     { title: 'Galactic Odyssey', occupancy: 30 }
   ];
+
+  showAddMovieModal = false;
+  showEditMovieModal = false;
+  selectedMovie: any = null;
+
+  openAddMovie() {
+    this.showAddMovieModal = true;
+  }
+
+  closeAddMovie() {
+    this.showAddMovieModal = false;
+  }
+
+  openEditMovie(movie: any) {
+    this.selectedMovie = { ...movie, name: movie.title }; // Map title to name for the form
+    this.showEditMovieModal = true;
+  }
+
+  closeEditMovie() {
+    this.showEditMovieModal = false;
+    this.selectedMovie = null;
+  }
 }

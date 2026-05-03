@@ -1,0 +1,198 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+  background: #F8F9FA;
+  width: 90%;
+  max-width: 900px;
+  border-radius: 40px;
+  padding: 3rem;
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-height: 95vh;
+  overflow-y: auto;
+}
+
+.back-btn {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  background: #F8F9FA;
+  border: none;
+  cursor: pointer;
+  padding: 0.8rem;
+  border-radius: 50%;
+  box-shadow: var(--inner-shadow);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.back-btn:hover {
+  box-shadow: var(--shadow-soft);
+  transform: translateX(-3px);
+}
+
+.back-btn img {
+  width: 20px;
+  opacity: 0.7;
+}
+
+/* Fallback if img fails to load or path is wrong */
+.back-btn::after {
+  content: '←';
+  font-size: 1.5rem;
+  color: #3B061C;
+  display: none;
+}
+
+.header {
+  text-align: center;
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.header h1 {
+  font-size: 3rem;
+  color: #3B061C;
+  font-weight: 800;
+  margin: 0;
+}
+
+.magic-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.profile-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.icon-container {
+  position: relative;
+}
+
+.camera-icon {
+  width: 120px;
+  height: 120px;
+  background: #F8F9FA;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: var(--inner-shadow);
+}
+
+.camera-icon img {
+  width: 48px;
+  height: 48px;
+  opacity: 0.6;
+}
+
+.camera-icon img.uploaded {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+}
+
+.edit-icon {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: #3B061C;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.edit-icon img {
+  width: 14px;
+  filter: invert(1);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+}
+
+.submit-btn {
+  background: #1a1a1a;
+  color: white;
+  border: none;
+  padding: 1rem 3rem;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+}
+
+.submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Custom Scrollbar for Modal Content */
+.modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #D1D9E6;
+  border-radius: 10px;
+}

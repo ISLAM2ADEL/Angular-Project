@@ -1,0 +1,19 @@
+<div class="toaster-container">
+  @for (toast of toasterService.toasts$ | async; track toast.id) {
+    <div class="toast" [ngClass]="toast.type">
+      <div class="toast-content">
+        @if (toast.type === 'success') {
+          <span class="toast-icon">✓</span>
+        } @else if (toast.type === 'error') {
+          <span class="toast-icon">✕</span>
+        } @else if (toast.type === 'warning') {
+          <span class="toast-icon">!</span>
+        } @else {
+          <span class="toast-icon">i</span>
+        }
+        <span class="toast-message">{{ toast.message }}</span>
+      </div>
+      <button class="toast-close" (click)="toasterService.remove(toast.id)">&times;</button>
+    </div>
+  }
+</div>

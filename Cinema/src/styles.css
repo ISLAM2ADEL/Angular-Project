@@ -17,6 +17,7 @@
   --selected-green: #2D5A27;
   --unavailable-seat: #E5E7EB;
   --shadow-soft: 8px 8px 16px rgba(0, 0, 0, 0.1);
+  --shadow-deep: 12px 12px 24px rgba(0, 0, 0, 0.15);
 
   --inner-shadow: inset -4px -4px 8px 2px #FFFFFF,
     inset 4px 4px 8px 2px #D1D9E6;

@@ -1,1 +1,62 @@
-<p>edit-movie works!</p>
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="back-btn" (click)="onClose()">
+      <img src="/arrow-turn-backward.svg" alt="back">
+    </button>
+
+    <div class="header">
+      <h1>Edit Movie</h1>
+      <div class="magic-icon">
+        <img src="/magic.svg" alt="magic">
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <div class="icon-container">
+        <div class="camera-icon">
+          <img [src]="movie.thumbnail || '/video.svg'" alt="camera" [class.uploaded]="!!movie.thumbnail">
+        </div>
+        <button class="edit-icon" type="button" (click)="fileInput.click()">
+          <img src="/edit.svg" alt="edit">
+        </button>
+        <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" hidden>
+      </div>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #editForm="ngForm">
+      <div class="form-grid">
+        <app-form-input label="Name" name="name" [(ngModel)]="movie.name" [control]="name" required #name="ngModel"
+          errorMsg="name field is required" />
+
+        <app-form-input label="Title" name="title" [(ngModel)]="movie.title" [control]="title" required #title="ngModel"
+          errorMsg="title field is required" />
+
+        <app-form-input label="Duration" name="duration" [(ngModel)]="movie.duration" [control]="duration" required
+          #duration="ngModel" errorMsg="duration field is required" />
+
+        <app-form-input label="Category" name="category" [(ngModel)]="movie.category" [control]="category" required
+          #category="ngModel" errorMsg="category field is required" [isSelect]="true" [options]="categories" 
+          [isDropShadow]="true" />
+      </div>
+
+      <app-form-input label="Description" name="description" [(ngModel)]="movie.description" [control]="desc" required
+        #desc="ngModel" errorMsg="description field is required" [isTextarea]="true" [fullWidth]="true" />
+
+      <div class="form-grid">
+        <app-form-input label="Date Time" name="dateTime" [(ngModel)]="movie.dateTime" type="date" iconUrl="/calendar2.svg" 
+          [isDropShadow]="true" [control]="dateTime" required #dateTime="ngModel" errorMsg="date field is required" />
+
+        <app-form-input label="Show Times" name="showTimes" [(ngModel)]="movie.showTimes" iconUrl="/clock.svg" 
+          [isMultiSelect]="true" [options]="showTimesOptions" [isDropShadow]="true" [control]="showTimes" 
+          required #showTimes="ngModel" errorMsg="show times are required" />
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="submit-btn" [disabled]="editForm.invalid">
+          <img src="/check.svg" alt="check">
+          Update Movie
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

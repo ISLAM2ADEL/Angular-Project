@@ -46,7 +46,7 @@
           </div>
         </td>
         <td><span class="genre-tag">{{ movie.genre }}</span></td>
-        <td>{{ movie.releaseDate }}</td>
+        <td class="release-date">{{ movie.releaseDate }}</td>
         <td>
           <span class="status-indicator" [class.showing]="movie.status === 'Showing'"
             [class.upcoming]="movie.status === 'Upcoming'">
@@ -55,7 +55,7 @@
         </td>
         <td>
           <div class="actions">
-            <button class="action-btn"><img src="/edit.svg" alt="edit"></button>
+            <button class="action-btn" (click)="openEditMovie(movie)"><img src="/edit.svg" alt="edit"></button>
             <button class="action-btn"><img src="/delete.svg" alt="delete"></button>
           </div>
         </td>
@@ -65,9 +65,16 @@
   </table>
   <div class="table-footer">
     <button type="button">View All Movies</button>
-    <button type="button">Add movie</button>
+    <button type="button" (click)="openAddMovie()">Add movie</button>
   </div>
 </section>
+
+@if (showAddMovieModal) {
+<app-add-movie (close)="closeAddMovie()" />
+}
+@if (showEditMovieModal) {
+<app-edit-movie [movieData]="selectedMovie" (close)="closeEditMovie()" />
+}
 
 <section class="popular-movies-section">
   <h2>Popular Movies</h2>
