@@ -8,7 +8,7 @@ Chart.register(...registerables);
 
 @Component({
   selector: 'app-admin-panel',
-  imports: [StatCard, BaseChartDirective],
+  imports: [StatCard,BaseChartDirective],
   templateUrl: './admin-panel.html',
   styleUrl: './admin-panel.css',
 })
