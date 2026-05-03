@@ -1,0 +1,62 @@
+.card-container {
+    display: flex;
+    background-color: var(--bg-card);
+    border-radius: 40px;
+    padding: 24px;
+    width: 350px;
+    box-shadow: var(--shadow-soft);
+    font-family: Arial, sans-serif;
+    align-items: center;
+}
+
+.image-wrapper img {
+    width: 140px;
+    height: 140px;
+    border-radius: 30px;
+    object-fit: contain;
+    display: block;
+}
+
+.content {
+    margin-left: 24px;
+}
+
+.release-date {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    letter-spacing: 0.5px;
+}
+
+.title {
+    font-size: 24px;
+    margin: 8px 0;
+    color: #222;
+    font-weight: 500;
+}
+
+.description {
+    font-size: 16px;
+    color: #888;
+    margin-bottom: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 70px;
+}
+
+.remind-btn {
+    background: none;
+    border: none;
+    color: #631212;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+.bell-icon {
+    margin-left: 6px;
+    font-size: 14px;
+}
