@@ -14,16 +14,11 @@
   </div>
 
   <div class="action-bar">
-    <button class="btn-primary">
-      <img src="/play.svg"  />
-      Watch Trailer</button>
+      <app-button label="Watch Trailer"iconPath="/play.svg" />
     <div class="icon-group">
-      <button class="btn-icon">
-        <img src="/fav.svg" />
-      </button>
-      <button class="btn-icon">
-        <img src="/share.svg" />
-      </button>
+      <app-button  iconPath="/fav.svg" variant="icon-only" />
+      <app-button  iconPath="/share.svg" variant="icon-only" />
+
     </div>
   </div>
 
@@ -31,12 +26,8 @@
     <div class="section-header">
       <h1>Select Showtime</h1>
       <div class="header-tools">
-        <button class="header-icon-btn" title="Calendar">
-          <img src="/calendar.svg"  />
-        </button>
-        <button class="header-icon-btn" title="Switch View">
-          <img src="/switch.svg"  />
-        </button>
+          <app-button  iconPath="/calendar.svg" variant="icon-only" />
+          <app-button  iconPath="/switch.svg" variant="icon-only" />
       </div>
     </div>
 

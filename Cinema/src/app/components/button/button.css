@@ -75,7 +75,7 @@
 
 .btn-icon-only:active {
   transform: scale(0.95);
-  box-shadow: var(--btn-shadow-active);
+  box-shadow: var(--inner-shadow);
 }
 
 .btn-icon-only img {

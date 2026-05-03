@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { Button } from "../../components/button/button";
 
 @Component({
   selector: 'app-movie-detail',
-  imports: [],
+  imports: [Button],
   templateUrl: './movie-detail.html',
   styleUrl: './movie-detail.css',
 })
