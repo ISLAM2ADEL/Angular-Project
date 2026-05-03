@@ -8,6 +8,20 @@
   --shadow-soft:8px 8px 16px rgba(0, 0, 0, 0.1);
   --selected-green: #2D5A27;
   --unavailable-seat: #E5E7EB;
+
+  /* Button Variables */
+  --btn-primary-bg: #3B061C;
+  --btn-radius: 50px;
+  --btn-transition: all 0.2s ease;
+  --btn-hover-scale: 0.98;
+  --btn-primary-shadow: 0 4px 10px rgba(59, 6, 28, 0.2);
+  --btn-primary-shadow-hover: 0 6px 14px rgba(59, 6, 28, 0.3);
+  --btn-primary-shadow-active: 0 2px 5px rgba(59, 6, 28, 0.2);
+  --btn-secondary-bg: #ffffff;
+  --btn-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  --btn-shadow-hover: 0 6px 14px rgba(0, 0, 0, 0.12);
+  --btn-shadow-active: 0 2px 5px rgba(0, 0, 0, 0.08);
+
   --inner-shadow: inset -4px -4px 8px 2px #FFFFFF,
     inset 4px 4px 8px 2px #D1D9E6;
 
