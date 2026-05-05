@@ -6,20 +6,17 @@
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  margin: 0 auto;
+  margin: var( --sections-margin) auto;
+  border-radius: var(--main-border-radius);
 }
 
 .movie-poster {
-  width: 70%;
-  aspect-ratio: 2 / 3;
-  object-fit: cover;
+  width: 90%;
+  height: auto;
+  object-fit: contain;
   border: 0.5rem solid white;
   border-radius: 2.5rem;
-  box-shadow:
-    -6px -6px 14px rgba(0, 0, 0, 0.08),
-    6px 6px 14px rgba(0, 0, 0, 0.08);
 }
-
 .movie-status {
   display: flex;
   flex-direction: column;

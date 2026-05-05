@@ -17,9 +17,11 @@ export class Button {
   iconPath = input('');
   variant = input<'primary' | 'secondary' | 'icon-only'>('primary');
   fullWidth = input(false);
+  disabled = input(false);
   btnClick = output<void>();
 
   onClick() {
+    if (this.disabled()) return;
     this.btnClick.emit();
   }
 }

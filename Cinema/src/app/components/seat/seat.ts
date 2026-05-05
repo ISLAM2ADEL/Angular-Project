@@ -1,20 +1,18 @@
-import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-seat',
   standalone: true,
-  imports: [CommonModule],
   templateUrl: './seat.html',
   styleUrl: './seat.css',
 })
 export class Seat {
-  @Input() isTaken = false;
-  isSelected = false; 
+  isTaken = input(false);
+  isSelected = input(false);
+  selectionChange = output<boolean>();
 
   toggleSeat() {
-    if (!this.isTaken) {
-      this.isSelected = !this.isSelected;
-    }
+    if (this.isTaken()) return;
+    this.selectionChange.emit(!this.isSelected());
   }
 }
