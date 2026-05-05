@@ -1,7 +1,9 @@
 <div
   class="seat"
-  [class.taken]="isTaken"
-  [class.selected]="isSelected"
+  [class.taken]="isTaken()"
+  [class.selected]="isSelected()"
   (click)="toggleSeat()">
-  <span *ngIf="isSelected" class="check-mark">✓</span>
+  @if (isSelected()) {
+    <span class="check-mark">✓</span>
+  }
 </div>

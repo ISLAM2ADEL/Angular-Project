@@ -1,6 +1,8 @@
 <button
+  type="button"
   [class]="'btn-base btn-' + variant()"
   [class.btn-full-width]="fullWidth()"
+  [disabled]="disabled()"
   (click)="onClick()">
   @if (iconPath()) {
     <img [src]="iconPath()" [alt]="label() || 'icon'" />
