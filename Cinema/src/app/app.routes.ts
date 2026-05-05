@@ -9,6 +9,9 @@ import { Signup } from './pages/signup/signup';
 import { UserProfile } from './pages/user-profile/user-profile';
 import { AdminPanel } from './pages/admin-panel/admin-panel';
 import { NotFound } from './pages/not-found/not-found';
+import { roleGuard } from './guards/role-guard';
+import { authGuard } from './guards/auth-guard';
+import { guestGuard } from './guards/guest-guard';
 
 export const routes: Routes = [
   {
@@ -31,30 +34,38 @@ export const routes: Routes = [
   {
     path: 'seats/:movieId/:showTimeId',
     component: Seats,
+    canActivate:[authGuard]
   },
   {
     path: 'checkout',
     component: Checkout,
+    canActivate:[authGuard]
   },
   {
     path: 'checkout/:movieId/:showTimeId/:seatId',
     component: Checkout,
+    canActivate:[authGuard]
   },
   {
     path: 'sign-in',
     component: Signin,
+    canActivate: [guestGuard]
   },
   {
     path: 'sign-up',
     component: Signup,
+    canActivate: [guestGuard]
   },
   {
     path: 'profile',
     component: UserProfile,
+    canActivate: [authGuard]
   },
   {
     path: 'admin-panel',
     component: AdminPanel,
+    canActivate: [roleGuard],
+    data: { role: 'Admin' }
   },
   {
     path: '**',
