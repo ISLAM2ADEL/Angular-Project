@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router'; 
 import { Auth } from '../../services/auth';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-signin',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './signin.html', 
-  styleUrls: ['./signin.css']   
+  styleUrls: ['../../SharedAuthStyle/SharedAuth.css']   
 })
 export class Signin {
   signinForm: FormGroup;
@@ -33,14 +34,24 @@ export class Signin {
       this.authService.login(this.signinForm.value).subscribe({
         next: (response) => {
           console.log('Login Success!', response);
-          
+          Swal.fire({
+            icon: 'success',
+            title: 'Login Successful',
+            text: 'You have been logged in successfully!',
+            confirmButtonColor: '#3b1e2a',
+          });
           localStorage.setItem('token', response.token); 
           
           this.router.navigate(['/home']); 
         },
         error: (err) => {
           console.error('Login Error', err);
-          alert('Invalid email or password!'); 
+          Swal.fire({
+            icon: 'error',
+            title: 'Login Failed',
+            text: err.error.message || 'An error occurred during login. Please try again.',
+            confirmButtonColor: '#3b1e2a',
+          })
         }
       });
     } else {

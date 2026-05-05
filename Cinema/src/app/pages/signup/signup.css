@@ -1,45 +1,17 @@
-
-.auth-container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #eaecf0; 
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-
-.auth-card {
-  background-color: #eaecf0;
-  width: 100%;
-  max-width: 720px;
-  padding: 40px 55px 55px;
-  border-radius: 28px;
-  box-shadow:
-    10px 10px 25px rgba(0, 0, 0, 0.08),
-    -6px -6px 16px rgba(255, 255, 255, 0.85);
-  position: relative;
-}
-
-
 .sparkle-icon {
   position: absolute;
   top: 22px;
   right: 28px;
   font-size: 28px;
-  color: #3b1e2a;
+  color: var(--primary-accent-800);
   line-height: 1;
 }
 
-
 .page-title {
   text-align: center;
-  color: #3b1e2a;
-  font-size: 34px;
-  font-weight: 800;
+  color: var(--primary-accent-800);
   margin: 0 0 30px 0;
 }
-
 
 .profile-wrapper {
   display: flex;
@@ -56,13 +28,13 @@
 .profile-circle {
   width: 145px;
   height: 145px;
-  background-color: #eaecf0;
+  background-color: var(--bg-card);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 72px;
-  color: #3b1e2a;
+  color: var(--primary-accent-800);
   box-shadow:
     inset 5px 5px 14px rgba(0, 0, 0, 0.1),
     inset -5px -5px 14px rgba(255, 255, 255, 0.9);
@@ -74,8 +46,8 @@
   right: 4px;
   width: 34px;
   height: 34px;
-  background-color: #3b1e2a;
-  border: 2px solid #eaecf0;
+  background-color: var(--primary-accent-800);
+  border: 2px solid var(--bg-card);
   border-radius: 50%;
   color: white;
   font-size: 13px;
@@ -87,9 +59,8 @@
 }
 
 .edit-btn:hover {
-  background-color: #5c2d3d;
+  background-color: var(--primary-accent-600);
 }
-
 
 .auth-form {
   display: flex;
@@ -106,12 +77,10 @@
 .form-group label {
   display: block;
   font-size: 14px;
-  font-weight: 600;
-  color: #1a1a2e;
   margin-bottom: 8px;
   margin-left: 12px;
+  color: var(--text-main);
 }
-
 
 .form-group input {
   width: 100%;
@@ -119,8 +88,8 @@
   border: none;
   border-radius: 30px;
   font-size: 14px;
-  color: #555;
-  background-color: #eaecf0;
+  color: var(--text-main);
+  background-color: var(--bg-card);
   box-shadow:
     inset 3px 3px 8px rgba(0, 0, 0, 0.1),
     inset -3px -3px 8px rgba(255, 255, 255, 0.85);
@@ -130,14 +99,14 @@
 }
 
 .form-group input::placeholder {
-  color: #b0b4ba;
+  color: var(--text-muted);
 }
 
 .form-group input:focus {
   box-shadow:
     inset 2px 2px 6px rgba(0, 0, 0, 0.13),
     inset -2px -2px 6px rgba(255, 255, 255, 0.9),
-    0 0 0 2px rgba(59, 30, 42, 0.2);
+    0 0 0 2px rgba(59, 6, 28, 0.2); 
 }
 
 .form-group input.is-invalid {
@@ -147,7 +116,6 @@
     0 0 0 1px rgba(180, 30, 60, 0.3);
 }
 
-
 .error-text {
   color: #b52848;
   font-size: 12px;
@@ -156,44 +124,12 @@
   text-align: center;
 }
 
-
 .submit-wrapper {
   display: flex;
   justify-content: center;
   margin-top: 12px;
 }
 
-.submit-btn {
-  background-color: #1c1c1e;
-  color: #ffffff;
-  border: none;
-  border-radius: 30px;
-  padding: 14px 42px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: all 0.3s ease;
-  letter-spacing: 0.3px;
-}
-
-.submit-btn i {
-  font-size: 18px;
-}
-
-.submit-btn:hover:not(:disabled) {
-  background-color: #3b1e2a;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
-}
-
-.submit-btn:disabled {
-  background-color: #9a9a9a;
-  cursor: not-allowed;
-  opacity: 0.7;
-}
 .password-container {
   position: relative;
   display: flex;
@@ -205,9 +141,7 @@
   right: 15px;
   background: transparent;
   border: none;
-
-  color: #b0b4ba;
-
+  color: var(--text-muted);
   font-size: 18px;
   cursor: pointer;
   padding: 0;
@@ -215,11 +149,32 @@
 }
 
 .eye-btn:hover {
-  color: #3b1e2a; 
-  
+  color: var(--primary-accent-800); 
 }
 
 .password-container input::-ms-reveal,
 .password-container input::-ms-clear {
   display: none;
+}
+
+.my-primary-button {
+  background-color: var(--btn-primary-bg); 
+  border-radius: var(--btn-radius);
+  box-shadow: var(--btn-primary-shadow);
+  transition: var(--btn-transition);
+  color: white; 
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+}
+
+.my-primary-button:hover:not(:disabled) {
+  box-shadow: var(--btn-primary-shadow-hover);
+  transform: scale(var(--btn-hover-scale));
+}
+
+.my-primary-button:disabled {
+  background-color: var(--text-muted);
+  cursor: not-allowed;
+  opacity: 0.7;
 }

@@ -1,10 +1,10 @@
-<div class="auth-container">
-  <div class="auth-card">
+<div class="auth-container container">
+  <div class="auth-card main-section">
     <div class="sparkle-icon">
           <img src="/assets/icons/stars.svg" alt="Sign In Icon">
     </div>
 
-    <h2 class="page-title">Sign up</h2>
+    <h2 class="page-title sharp-font-boldest">Sign up</h2>
 
     <div class="profile-wrapper">
       <div class="profile-avatar-container">
@@ -20,7 +20,7 @@
     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="auth-form" autocomplete="off">
       <div class="form-row">
         <div class="form-group">
-          <label>Name</label>
+          <label class="sharp-font-bold">Name</label>
           <input
             type="text"
             formControlName="name"
@@ -37,7 +37,7 @@
         </div>
 
         <div class="form-group">
-          <label>Email</label>
+          <label class="sharp-font-bold">Email</label>
           <input
             type="email"
             formControlName="email"
@@ -58,7 +58,7 @@
       </div>
 
       <div class="form-group">
-        <label>Password</label>
+        <label class="sharp-font-bold">Password</label>
 
         <div class="password-container">
           <input
@@ -86,7 +86,7 @@
       </div>
 
       <div class="form-group">
-        <label>Phone Number</label>
+        <label class="sharp-font-bold">Phone Number</label>
         <input
           type="text"
           formControlName="phone"
@@ -104,14 +104,15 @@
       </div>
 
       <div class="submit-wrapper">
-        <button type="submit" class="submit-btn" [disabled]="signupForm.invalid">
-          <img src="/assets/icons/login-02.svg" alt="Sign In Icon">
+        <button type="submit" class="my-primary-button" [disabled]="signupForm.invalid" style="width: 100%; display: flex; justify-content: center; align-items: center; gap: 10px;">
+          <img src="/assets/icons/login-02.svg" alt="Sign Up Icon">
           Sign Up Now
         </button>
       </div>
-      <div style="text-align: center; margin-top: 15px; font-size: 14px; font-weight: 600">
-        <span style="color: #666">Already have an accountt? </span>
-        <a routerLink="/sign-in" style="color: #3b1e2a; text-decoration: none">Sign Up</a>
+      
+      <div style="text-align: center; margin-top: 20px;" class="sharp-font-bold">
+        <span style="color: var(--text-muted);">Already have an account? </span>
+        <a routerLink="/sign-in" style="color: var(--primary-accent-800); text-decoration: none">Sign In</a>
       </div>
     </form>
   </div>
