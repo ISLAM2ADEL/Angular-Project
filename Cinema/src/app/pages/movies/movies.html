@@ -1,10 +1,11 @@
 <h1 class="main-title">Experience Cinema Excellence</h1>
 <h4 class="description">Curated screenings in the heart of the city.</h4>
-<app-search-bar></app-search-bar>
-<app-filters-bar></app-filters-bar>
+<app-search-bar (searchChange)="onSearchChange($event)"></app-search-bar>
+<app-filters-bar (filterChanged)="onFilterChange($event)"></app-filters-bar>
 <div class="movies-container">
-    @for (item of movies; track $index) {
-    <app-booking-movie-card [imageUrl]="'spiderman.jpg'" [rating]="'8.2'" [title]="'Spider Man'" [genre]="'Action'"
-        [duration]="'2h 10m'"></app-booking-movie-card>
+    @for (movie of filteredMovies(); track movie._id) {
+    <app-booking-movie-card [poster]="movie.poster" [rating]="movie.rating" [title]="movie.title" [genre]="movie.genre"
+        [duration]="movie.duration">
+    </app-booking-movie-card>
     }
 </div>

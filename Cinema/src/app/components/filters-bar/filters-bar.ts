@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-filters-bar',
@@ -7,16 +7,18 @@ import { Component } from '@angular/core';
   styleUrl: './filters-bar.css',
 })
 export class FiltersBar {
+  @Output() filterChanged = new EventEmitter<string>();
+
   filters = [
+    'Title',
     'Genre',
-    'Language',
     'Rating',
-    'Release Date',
   ];
 
-  selected = '';
+  selected = 'Title';
 
   selectFilter(filter: string) {
     this.selected = filter;
+    this.filterChanged.emit(filter);
   }
 }
