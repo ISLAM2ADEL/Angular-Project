@@ -40,7 +40,7 @@ private authService = inject(Auth);
             icon: 'success',
             title: 'Registration Successful',
             text: 'Your account has been created successfully! Please sign in to continue.',
-            confirmButtonColor: '#3b1e2a',
+            confirmButtonColor: 'var(--primary-accent)',
           })
           this.router.navigate(['/sign-in']);
         },
@@ -50,7 +50,7 @@ private authService = inject(Auth);
             icon: 'error',
             title: 'Registration Failed',
             text: error.error.message || 'An error occurred during registration. Please try again.',
-            confirmButtonColor: '#3b1e2a',
+            confirmButtonColor: 'var(--primary-accent)',
           })
         }
       });

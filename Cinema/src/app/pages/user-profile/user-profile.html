@@ -35,6 +35,7 @@
       </div>
     </div>
 
+    @if (myBookings.length > 0) {
     <div class="bookings-grid">
       <div class="booking-card" *ngFor="let booking of myBookings">
         <div class="booking-poster">
@@ -71,6 +72,14 @@
         </div>
       </div>
     </div>
+    } @else {
+      <div class="empty-state">
+        <img src="video.svg" alt="No Booking" class="empty-icon" />
+        <h2>No Bookings Found</h2>
+        <p>Would you like to book a movie ticket?</p>
+        <app-button routerLink="/movies" label="Browse Movies" variant="primary"></app-button>
+      </div>
+    }
   </section>
 
   <!-- Booking History -->

@@ -38,7 +38,7 @@ export class Signin {
             icon: 'success',
             title: 'Login Successful',
             text: 'You have been logged in successfully!',
-            confirmButtonColor: '#3b1e2a',
+            confirmButtonColor: 'var(--primary-accent)',
           });
           localStorage.setItem('token', response.token); 
           if (response?.data?.role) {
@@ -54,7 +54,7 @@ export class Signin {
             icon: 'error',
             title: 'Login Failed',
             text: err.error.message || 'An error occurred during login. Please try again.',
-            confirmButtonColor: '#3b1e2a',
+            confirmButtonColor: 'var(--primary-accent)',
           })
         }
       });
