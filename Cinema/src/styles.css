@@ -272,3 +272,61 @@ a {
 [data-theme='dark'] .icon-themed {
   filter: invert(1) brightness(2);
 }
+
+/* Empty State Utility */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  background: var(--bg-color);
+  border-radius: var(--main-border-radius);
+  box-shadow: var(--shadow-soft);
+  gap: 1rem;
+}
+
+.empty-state h2 {
+  color: var(--primary-accent);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.empty-state p {
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.empty-icon {
+  width: 4rem;
+  height: 4rem;
+  opacity: 0.5;
+  filter: invert(30%) sepia(10%) saturate(1000%) hue-rotate(100deg);
+}
+
+[data-theme='dark'] .empty-icon {
+  filter: invert(1);
+}
+
+/* SweetAlert2 Theme Overrides */
+div:where(.swal2-container) div:where(.swal2-popup) {
+  background-color: var(--bg-card) !important;
+  color: var(--text-main) !important;
+  border-radius: var(--main-border-radius);
+  box-shadow: var(--shadow-deep);
+}
+
+div:where(.swal2-container) h2:where(.swal2-title) {
+  color: var(--text-main) !important;
+}
+
+div:where(.swal2-container) div:where(.swal2-html-container) {
+  color: var(--text-muted) !important;
+}
+
+div:where(.swal2-container) button:where(.swal2-confirm),
+div:where(.swal2-container) button:where(.swal2-cancel) {
+  border-radius: var(--btn-radius) !important;
+}

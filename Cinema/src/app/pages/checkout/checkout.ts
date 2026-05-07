@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Button } from '../../components/button/button';
 import { ShowtimeService } from '../../services/showtime.service';
 import { BookingService } from '../../services/booking.service';
@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, FormsModule, Button],
+  imports: [CommonModule, FormsModule, Button, RouterLink],
   templateUrl: './checkout.html',
   styleUrl: './checkout.css',
 })
@@ -35,11 +35,11 @@ export class Checkout implements OnInit {
   hallInfo = '';
   seatsInfo = '';
   posterUrl = '';
-  
+
   // Price Summary
   ticketsPrice = 0;
-  vipLoungePrice = 15.00; // static demo
-  serviceFee = 4.50;      // static demo
+  vipLoungePrice = 15.0; // static demo
+  serviceFee = 4.5; // static demo
   totalAmount = 0;
 
   // Payment State
@@ -53,11 +53,11 @@ export class Checkout implements OnInit {
   visaCvv = '';
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       this.movieId = params.get('movieId') || '';
       this.showTimeId = params.get('showTimeId') || '';
       const seatsParam = params.get('seatId') || '';
-      this.seatIds = seatsParam.split(',').filter(s => s);
+      this.seatIds = seatsParam.split(',').filter((s) => s);
       this.seatsInfo = this.seatIds.join(', ');
 
       if (this.showTimeId) {
@@ -74,11 +74,19 @@ export class Checkout implements OnInit {
           const m = st.movie as any;
           this.movieTitle = m?.title || 'Unknown';
           this.posterUrl = m?.poster || 'spiderman.jpg';
-          
+
           const d = new Date(st.startTime);
-          this.movieDate = d.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' });
-          this.movieTimeAndDuration = d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
-          
+          this.movieDate = d.toLocaleDateString(undefined, {
+            weekday: 'long',
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+          });
+          this.movieTimeAndDuration = d.toLocaleTimeString(undefined, {
+            hour: '2-digit',
+            minute: '2-digit',
+          });
+
           const h = st.hallId;
           const hallName = typeof h === 'string' ? '' : (h?.name ?? '');
           const hallType = typeof h === 'string' ? '' : (h?.type ?? '');
@@ -87,11 +95,11 @@ export class Checkout implements OnInit {
           const pricePerSeat = st.price || 0;
           this.ticketsPrice = pricePerSeat * this.seatIds.length;
           this.totalAmount = this.ticketsPrice + this.vipLoungePrice + this.serviceFee;
-          
+
           this.cdr.detectChanges();
         }
       },
-      error: (err) => console.error('Failed to load showtime', err)
+      error: (err) => console.error('Failed to load showtime', err),
     });
   }
 
@@ -127,38 +135,44 @@ export class Checkout implements OnInit {
 
   processBookingAndPayment() {
     // 1. Create Booking
-    this.bookingService.createBooking({
-      showtimeId: this.showTimeId,
-      seats: this.seatIds,
-      method: this.selectedPaymentMethod
-    }).subscribe({
-      next: (bookingRes) => {
-        const paymentId = bookingRes.paymentId;
-        if (!paymentId) {
-          Swal.fire('Error', 'Booking created but no payment ID returned', 'error');
-          return;
-        }
-        
-        // 2. Confirm Payment
-        this.paymentService.confirmPayment({ paymentId }).subscribe({
-          next: (paymentRes) => {
-            Swal.fire({
-              icon: 'success',
-              title: 'Payment Successful',
-              text: 'Your booking has been confirmed!',
-              confirmButtonColor: '#3b1e2a',
-            }).then(() => {
-              this.router.navigate(['/profile']);
-            });
-          },
-          error: (err) => {
-            Swal.fire('Payment Failed', err.error?.message || 'An error occurred', 'error');
+    this.bookingService
+      .createBooking({
+        showtimeId: this.showTimeId,
+        seats: this.seatIds,
+        method: this.selectedPaymentMethod,
+      })
+      .subscribe({
+        next: (bookingRes) => {
+          const paymentId = bookingRes.paymentId;
+          if (!paymentId) {
+            Swal.fire('Error', 'Booking created but no payment ID returned', 'error');
+            return;
           }
-        });
-      },
-      error: (err) => {
-        Swal.fire('Booking Failed', err.error?.message || 'Failed to create booking. Seats might be taken.', 'error');
-      }
-    });
+
+          // 2. Confirm Payment
+          this.paymentService.confirmPayment({ paymentId }).subscribe({
+            next: (paymentRes) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'Payment Successful',
+                text: 'Your booking has been confirmed!',
+                confirmButtonColor: 'var(--primary-accent)',
+              }).then(() => {
+                this.router.navigate(['/profile']);
+              });
+            },
+            error: (err) => {
+              Swal.fire('Payment Failed', err.error?.message || 'An error occurred', 'error');
+            },
+          });
+        },
+        error: (err) => {
+          Swal.fire(
+            'Booking Failed',
+            err.error?.message || 'Failed to create booking. Seats might be taken.',
+            'error',
+          );
+        },
+      });
   }
 }

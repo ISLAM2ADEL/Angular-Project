@@ -4,6 +4,7 @@ import { Button } from '../../components/button/button';
 import { UserService } from '../../services/user.service';
 import { BookingService } from '../../services/booking.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
+import { RouterLink } from '@angular/router';
 
 interface Booking {
   id: string;
@@ -26,7 +27,7 @@ interface HistoryItem {
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [CommonModule, Button],
+  imports: [CommonModule, Button, RouterLink],
   templateUrl: './user-profile.html',
   styleUrl: './user-profile.css',
 })
@@ -128,7 +129,7 @@ export class UserProfile implements OnInit {
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
-      cancelButtonColor: '#3b1e2a',
+      cancelButtonColor: 'var(--primary-accent)',
       confirmButtonText: 'Yes, cancel it!'
     }).then((result: SweetAlertResult) => {
       if (result.isConfirmed) {
@@ -138,7 +139,7 @@ export class UserProfile implements OnInit {
               title: 'Cancelled!',
               text: 'Your booking has been cancelled.',
               icon: 'success',
-              confirmButtonColor: '#3b1e2a'
+              confirmButtonColor: 'var(--primary-accent)'
             });
             this.ngOnInit(); // reload
           },
@@ -147,7 +148,7 @@ export class UserProfile implements OnInit {
               title: 'Error',
               text: err.error?.message || 'Failed to cancel booking',
               icon: 'error',
-              confirmButtonColor: '#3b1e2a'
+              confirmButtonColor: 'var(--primary-accent)'
             });
           }
         });
