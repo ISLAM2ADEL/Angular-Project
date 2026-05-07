@@ -35,12 +35,12 @@
       </tr>
     </thead>
     <tbody>
-      @if (isLoadingMovies && movies.length === 0) {
+      @if (isLoadingMovies && tableMovies.length === 0) {
         <tr>
           <td colspan="5" class="release-date">Loading movies...</td>
         </tr>
       } @else {
-        @for (movie of filteredMovies; track movie._id) {
+        @for (movie of tableMovies; track movie._id) {
           <tr>
             <td>
               <div class="movie-details">
@@ -99,7 +99,7 @@
           <div class="admin-empty">No movies match your search.</div>
         } @else {
           <div class="all-movies-grid">
-            @for (movie of filteredModalMovies; track movie._id) {
+            @for (movie of modalMovies; track movie._id) {
               <div class="all-movie-card">
                 <img class="all-movie-poster" [src]="movie.poster" [alt]="movie.title" loading="lazy">
                 <div class="all-movie-meta">

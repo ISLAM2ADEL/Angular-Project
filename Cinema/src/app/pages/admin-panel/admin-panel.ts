@@ -88,21 +88,12 @@ export class AdminPanel implements OnInit {
     }
   ];
 
-  movies: Movie[] = []; // Used for the main table (limited to 5)
+  tableMovies: Movie[] = []; // Used for the main table (limited to 5)
   modalMovies: Movie[] = []; // Used for the "All Movies" modal
   isLoadingMovies = false;
   isLoadingModal = false;
   modalLimit = 10;
   hasMoreModalMovies = true;
-
-  get filteredMovies(): Movie[] {
-    // We return movies directly since filtering is now handled server-side for performance
-    return this.movies;
-  }
-
-  get filteredModalMovies(): Movie[] {
-    return this.modalMovies;
-  }
 
   popularMovies = [
     { title: 'Chronicles of Night', occupancy: 88 },
@@ -116,14 +107,20 @@ export class AdminPanel implements OnInit {
   selectedMovie: Movie | null = null;
 
   ngOnInit(): void {
+    // Load initial 5 movies for the main table
     this.loadMovies();
   }
 
   loadMovies() {
     this.isLoadingMovies = true;
-    this.movieService.getAll({ limit: 5, search: this.searchTerm }).subscribe({
+    const params: any = { limit: 5 };
+    if (this.searchTerm) params.search = this.searchTerm;
+
+    this.movieService.getAll(params).subscribe({
       next: (res) => {
-        this.movies = res.data || [];
+        const data = res.data || [];
+        // Apply client-side slice as a fallback to ensure exactly 5 movies are shown
+        this.tableMovies = data.slice(0, 5);
         this.isLoadingMovies = false;
       },
       error: (err) => {
@@ -135,10 +132,24 @@ export class AdminPanel implements OnInit {
 
   loadModalMovies() {
     this.isLoadingModal = true;
-    this.movieService.getAll({ limit: this.modalLimit, search: this.searchTerm }).subscribe({
+    const params: any = { limit: this.modalLimit };
+    if (this.searchTerm) params.search = this.searchTerm;
+
+    this.movieService.getAll(params).subscribe({
       next: (res) => {
-        this.modalMovies = res.data || [];
-        this.hasMoreModalMovies = this.modalMovies.length >= this.modalLimit;
+        const data = res.data || [];
+        // If backend supports limit, data.length will be <= modalLimit. 
+        // We check res.count to see if there's more on the server.
+        // If backend doesn't support limit, data.length will be total count.
+        
+        if (res.count !== undefined) {
+          this.modalMovies = data; // Backend already limited it
+          this.hasMoreModalMovies = data.length < res.count;
+        } else {
+          // Fallback for backends without count or limit support
+          this.modalMovies = data.slice(0, this.modalLimit);
+          this.hasMoreModalMovies = data.length > this.modalLimit;
+        }
         this.isLoadingModal = false;
       },
       error: (err) => {
