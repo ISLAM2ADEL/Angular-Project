@@ -148,3 +148,15 @@ a {
   border-radius: var(--main-border-radius);
   box-shadow: var(--shadow-soft);
 }
+
+.auth-container.container {
+  width: 75%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.auth-card.main-section {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 40px 55px;
+}
