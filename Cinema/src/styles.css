@@ -1,24 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 
 :root {
-  --primary-accent-800: #3B061C;
-  --primary-accent-700: #551C31;
+  --primary-accent-800: #3b061c;
+  --primary-accent-700: #551c31;
   --primary-accent-600: #713247;
-  --primary-accent: #8D495F;
-  --primary-accent-400: #AA6178;
-  --primary-accent-300: #C87A91;
-  --primary-accent-200: #FFB1C7;
-  --primary-accent-100: #FFD9E2;
+  --primary-accent: #8d495f;
+  --primary-accent-400: #aa6178;
+  --primary-accent-300: #c87a91;
+  --primary-accent-200: #ffb1c7;
+  --primary-accent-100: #ffd9e2;
   --bg-color: #ffffff;
-  --text-main: #64748B;
+  --text-main: #64748b;
   --text-muted: #888888;
-  --btn-clicked: #3B061C;
-  --bg-card: #F0F0F0;
-  --selected-green: #2D5A27;
-  --unavailable-seat: #E5E7EB;
+  --btn-clicked: #3b061c;
+  --bg-card: #f0f0f0;
+  --selected-green: #2d5a27;
+  --unavailable-seat: #e5e7eb;
 
   /* Button Variables */
-  --btn-primary-bg: #3B061C;
+  --btn-primary-bg: #3b061c;
   --btn-radius: 50px;
   --btn-transition: all 0.2s ease;
   --btn-hover-scale: 0.98;
@@ -31,20 +31,18 @@
   --btn-shadow-active: 0 2px 5px rgba(0, 0, 0, 0.08);
   --shadow-soft: 8px 8px 16px rgba(0, 0, 0, 0.1);
 
-  --inner-shadow: inset -4px -4px 8px 2px #FFFFFF,
-    inset 4px 4px 8px 2px #D1D9E6;
+  --inner-shadow: inset -4px -4px 8px 2px #ffffff, inset 4px 4px 8px 2px #d1d9e6;
 
-  --inner-shadow-light: inset -4px -4px 8px 2px #FFFFFF,
-    inset 4px 4px 8px 2px #D1D9E6;
+  --inner-shadow-light: inset -4px -4px 8px 2px #ffffff, inset 4px 4px 8px 2px #d1d9e6;
 
-  --inner-shadow-dark: inset -3px -3px 6px rgba(255, 255, 255, 0.1),
-    inset 3px 3px 6px rgba(0, 0, 0, 0.4);
+  --inner-shadow-dark:
+    inset -3px -3px 6px rgba(255, 255, 255, 0.1), inset 3px 3px 6px rgba(0, 0, 0, 0.4);
 
-  --inner-shadow-selected: inset -3px -3px 6px rgba(255, 255, 255, 0.15),
-    inset 3px 3px 6px rgba(0, 0, 0, 0.5);
+  --inner-shadow-selected:
+    inset -3px -3px 6px rgba(255, 255, 255, 0.15), inset 3px 3px 6px rgba(0, 0, 0, 0.5);
 
   --main-border-radius: 32px;
-  --sections-margin: 2rem
+  --sections-margin: 2rem;
 }
 
 * {
@@ -66,72 +64,71 @@ h4,
 h5,
 h6,
 a {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-optical-sizing: auto;
   font-weight: 600;
   font-style: normal;
 }
 
-
 /* Clean way to set default font for everything except buttons */
 :where(*:not(button, h1, h2, h3, h4, h5, h6, a)) {
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-style: normal;
 }
 
 .sharp-font-thin {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-optical-sizing: auto;
   font-weight: 200;
   font-style: normal;
 }
 
 .sharp-font-meduim {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
 }
 
 .sharp-font-bold {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-optical-sizing: auto;
   font-weight: 600;
   font-style: normal;
 }
 
 .sharp-font-boldest {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-optical-sizing: auto;
   font-weight: 800;
   font-style: normal;
 }
 
 .regular-font-thin {
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   font-optical-sizing: auto;
   font-weight: 100;
   font-style: normal;
 }
 
 .regular-font-meduim {
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-style: normal;
 }
 
 .regular-font-bold {
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
 }
 
 .regular-font-boldest {
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   font-optical-sizing: auto;
   font-weight: 700;
   font-style: normal;
@@ -147,16 +144,4 @@ a {
   padding: 5rem;
   border-radius: var(--main-border-radius);
   box-shadow: var(--shadow-soft);
-}
-
-.auth-container.container {
-  width: 75%;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-.auth-card.main-section {
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 40px 55px;
 }
