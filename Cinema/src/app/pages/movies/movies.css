@@ -1,0 +1,36 @@
+.main-title {
+    justify-content: center;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 50px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-top: 50px;
+    color: black;
+
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.description {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: gray;
+
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.movies-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}

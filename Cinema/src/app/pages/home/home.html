@@ -1,1 +1,32 @@
-<p>home works!</p>
+<app-featured-movie [imageUrl]="'spiderman.jpg'" [title]="'Spider Man'"
+    [description]="'Experience the epic journey across space and time\nin our signature IMAX 4K Laser auditorium with\nDolby Atmos sound.'"></app-featured-movie>
+<h1 class="now-showing-title">Now Showing</h1>
+<div class="now-showing">
+    <app-movie-card [imageUrl]="'spiderman.jpg'" [title]="'Spider man'" [rating]="'7.6'"
+        [metadata]="'Action — 2h 10m'"></app-movie-card>
+    <app-movie-card [imageUrl]="'spiderman.jpg'" [title]="'Spider man'" [rating]="'7.6'"
+        [metadata]="'Action — 2h 10m'"></app-movie-card>
+    <app-movie-card [imageUrl]="'spiderman.jpg'" [title]="'Spider man'" [rating]="'7.6'"
+        [metadata]="'Action — 2h 10m'"></app-movie-card>
+    <app-movie-card [imageUrl]="'spiderman.jpg'" [title]="'Spider man'" [rating]="'7.6'"
+        [metadata]="'Action — 2h 10m'"></app-movie-card>
+</div>
+<h1 class="features-title">Ultra-Luxe Experiences</h1>
+<div class="features">
+    <app-feature-card [iconUrl]="'food icon.svg'" [featureName]="'Gourmet Dining'"
+        [featureDescription]="'In-seat service featuring artisan\n snacks, small\n plates, and craft beverages\n delivered silently.'"></app-feature-card>
+    <app-feature-card [iconUrl]="'vip lounges icon.svg'" [featureName]="'VIP Lounges'"
+        [featureDescription]="'Full reclining leather seats\n with heating, private\n side tables, and exclusive\n lounge access.'"></app-feature-card>
+    <app-feature-card [iconUrl]="'imax laser icon.svg'" [featureName]="'IMAX Laser'"
+        [featureDescription]="'Next-generation 4K laser\n projection with 12-\n channel immersive sound system\n for total clarity.'"></app-feature-card>
+</div>
+
+<h1 class="upcoming-title">Upcoming Blockbusters</h1>
+<div class="upcoming">
+    <app-upcoming-card [imageUrl]="'spiderman.jpg'" [releaseDate]="'RELEASING DEC 12'" [title]="'Spider man'"
+        [description]="'In a world where memories are harvested like crops, one architect of dreams must decide if the emerald legacy of the past is worth the sacrifice of a digital future. A visually breathtaking journey into the soul of tomorrow.'"></app-upcoming-card>
+    <app-upcoming-card [imageUrl]="'spiderman.jpg'" [releaseDate]="'RELEASING DEC 12'" [title]="'Spider man'"
+        [description]="'In a world where memories are harvested like crops, one architect of dreams must decide if the emerald legacy of the past is worth the sacrifice of a digital future. A visually breathtaking journey into the soul of tomorrow.'"></app-upcoming-card>
+    <app-upcoming-card [imageUrl]="'spiderman.jpg'" [releaseDate]="'RELEASING DEC 12'" [title]="'Spider man'"
+        [description]="'In a world where memories are harvested like crops, one architect of dreams must decide if the emerald legacy of the past is worth the sacrifice of a digital future. A visually breathtaking journey into the soul of tomorrow.'"></app-upcoming-card>
+</div>

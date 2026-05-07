@@ -1,1 +1,138 @@
-<p>checkout works!</p>
+<div class="checkout-wrapper" [class.blurred]="isVisaModalOpen">
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Movie Details Card -->
+    <section class="card movie-card">
+      <div class="poster-container">
+        <img [src]="posterUrl" alt="Movie Poster" class="poster" />
+      </div>
+      <div class="movie-info">
+        <div class="badge">NOW BOOKING</div>
+        <h1 class="movie-title">{{ movieTitle }}</h1>
+        <div class="details-list">
+          <div class="detail-item">
+            <img src="calendar.svg" alt="Date" />
+            <span>{{ movieDate }}</span>
+          </div>
+          <div class="detail-item">
+            <img src="clock.svg" alt="Time" />
+            <span>{{ movieTimeAndDuration }}</span>
+          </div>
+          <div class="detail-item">
+            <img src="video.svg" alt="Hall" />
+            <span>{{ hallInfo }}</span>
+          </div>
+          <div class="detail-item">
+            <img src="star.svg" alt="Seats" />
+            <span>Seats: {{ seatsInfo }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Price Summary Card -->
+    <section class="card price-summary-card">
+      <h2 class="section-title"><img src="bookbtn.svg" alt="Receipt" /> Price Summary</h2>
+      <div class="price-row">
+        <span>Standard Ticket (x{{seatIds.length}})</span>
+        <span class="price-val">${{ ticketsPrice | number: '1.2-2' }}</span>
+      </div>
+      <div class="price-row">
+        <span>VIP Lounge Access</span>
+        <span class="price-val">${{ vipLoungePrice | number: '1.2-2' }}</span>
+      </div>
+      <div class="price-row">
+        <span>Service Fee</span>
+        <span class="price-val">${{ serviceFee | number: '1.2-2' }}</span>
+      </div>
+      <hr class="divider" />
+      <div class="price-row total-row">
+        <span>Total Amount</span>
+        <span class="total-amount">${{ totalAmount | number: '1.2-2' }}</span>
+      </div>
+    </section>
+
+    <!-- Payment Method Card -->
+    <section class="card payment-method-card">
+      <h2 class="section-title"><img src="bookbtn.svg" alt="Payment" /> Payment Method</h2>
+
+      <div class="payment-options">
+        <label class="payment-option">
+          <input type="radio" name="payment" value="card" [(ngModel)]="selectedPaymentMethod" />
+          <div class="option-content">
+            <div class="option-icon card-icon"></div>
+            <div class="option-text">
+              <span class="option-title">Credit / Debit Card</span>
+              <span class="option-desc">Visa, Mastercard, Amex</span>
+            </div>
+            <div class="radio-circle"></div>
+          </div>
+        </label>
+
+        <label class="payment-option">
+          <input type="radio" name="payment" value="cash" [(ngModel)]="selectedPaymentMethod" />
+          <div class="option-content">
+            <div class="option-icon cash-icon"></div>
+            <div class="option-text">
+              <span class="option-title">Cash Payment</span>
+              <span class="option-desc">Pay at the cinema counter</span>
+            </div>
+            <div class="radio-circle"></div>
+          </div>
+        </label>
+      </div>
+
+      <app-button
+        label="Confirm Payment →"
+        variant="primary"
+        [fullWidth]="true"
+        (btnClick)="onConfirmPayment()"
+      >
+      </app-button>
+
+      <div class="secure-transaction">
+        <img src="bookbtn.svg" alt="Lock" />
+        <span>Secure 256-bit SSL Encrypted Transaction</span>
+      </div>
+    </section>
+
+    <!-- Info Box -->
+    <div class="info-box">
+      <img src="bookbtn.svg" alt="Info" />
+      <p>
+        Cancellations are permitted up to 2 hours before showtime. VIP lounge access includes
+        complimentary snacks and reclining seats.
+      </p>
+    </div>
+  </main>
+</div>
+
+<!-- Visa Modal Popup -->
+<div class="modal-overlay" *ngIf="isVisaModalOpen">
+  <div class="modal-content">
+    <h2>Enter Visa Details</h2>
+    <div class="form-group">
+      <label>Card Number</label>
+      <input type="text" placeholder="1234 5678 1234 5678" [ngModel]="visaCardNumber" (ngModelChange)="onCardNumberChange($event)" />
+    </div>
+    <div class="form-row">
+      <div class="form-group half">
+        <label>Month</label>
+        <input type="text" placeholder="MM" [(ngModel)]="visaMonth" />
+      </div>
+      <div class="form-group half">
+        <label>Year</label>
+        <input type="text" placeholder="YY" [(ngModel)]="visaYear" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>CVV</label>
+      <input type="text" placeholder="123" [(ngModel)]="visaCvv" />
+    </div>
+    
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="closeVisaModal()">Cancel</button>
+      <button class="btn-ok" (click)="submitVisaPayment()">OK</button>
+    </div>
+  </div>
+</div>
