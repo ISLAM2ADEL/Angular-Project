@@ -5,7 +5,7 @@
   [disabled]="disabled()"
   (click)="onClick()">
   @if (iconPath()) {
-    <img [src]="iconPath()" [alt]="label() || 'icon'" />
+    <span class="btn-icon" [style.-webkit-mask-image]="'url(\'' + iconPath() + '\')'" [style.mask-image]="'url(\'' + iconPath() + '\')'"></span>
   }
   @if (label()) {
     <span>{{ label() }}</span>

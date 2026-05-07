@@ -1,10 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from "@angular/router";
 import { ThemeService } from '../../services/ThemeService';
+import { Button } from '../button/button';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink],
+  imports: [RouterLink, Button],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })

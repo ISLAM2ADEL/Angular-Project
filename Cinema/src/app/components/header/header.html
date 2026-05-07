@@ -5,32 +5,18 @@
       <span class="brand sharp-font-boldest">CinePremium</span>
     </div>
     <nav class="nav">
-      <a class="nav-item" routerLink="/home">
-        <img src="home icon.svg" alt=""> Home
-      </a>
-      <a class="nav-item" routerLink="/movies">
-        <img src="movies icon.svg"> Movies
-      </a>
+      <app-button routerLink="/home" label="Home" iconPath="home icon.svg" variant="secondary"></app-button>
+      <app-button routerLink="/movies" label="Movies" iconPath="movies icon.svg" variant="secondary"></app-button>
     </nav>
     <div class="actions">
-      <button class="icon-btn" (click)="changeTheme()">
-        <img src="theme icon.svg">
-      </button>
+      <app-button variant="icon-only" iconPath="theme icon.svg" (btnClick)="changeTheme()"></app-button>
       @if(isUserLoggedIn) {
-        <a class="nav-item" routerLink="/profile">
-          <img src="sign up icon.svg"> Profile
-        </a>
-        <a class="nav-item" (click)="logOut()">
-          <img src="logout-02.svg"> Logout
-        </a>
+        <app-button routerLink="/profile" label="Profile" iconPath="sign up icon.svg" variant="secondary"></app-button>
+        <app-button label="Logout" iconPath="logout-02.svg" variant="secondary" (btnClick)="logOut()"></app-button>
       } @else {
-      <a class="nav-item" routerLink="/sign-up">
-        <img src="sign up icon.svg"> Sign Up
-      </a>
-      <a class="nav-item" routerLink="/sign-in">
-        <img src="log in icon.svg"> Login
-      </a>
-    }
+        <app-button routerLink="/sign-up" label="Sign Up" iconPath="sign up icon.svg" variant="secondary"></app-button>
+        <app-button routerLink="/sign-in" label="Login" iconPath="log in icon.svg" variant="secondary"></app-button>
+      }
     </div>
   </div>
 </header>
