@@ -128,6 +128,17 @@ export class Seats {
     });
   }
 
+  confirmBooking() {
+    const mid = this.movieId();
+    const sid = this.showTimeId();
+    if (!mid || !sid) return;
+    
+    const seatIds = Array.from(this.selectedIds()).join(',');
+    if (!seatIds) return;
+
+    void this.router.navigate(['/checkout', mid, sid, seatIds]);
+  }
+
   cancelBooking() {
     const mid = this.movieId();
     if (mid) void this.router.navigate(['/movie', mid]);

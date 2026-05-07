@@ -8,6 +8,10 @@ export interface MovieByIdResponse {
   data: Movie;
 }
 
+interface MoviesResponse {
+  data: Movie[]
+}
+
 @Injectable({ providedIn: 'root' })
 export class MovieService {
   private  http = inject(HttpClient);
@@ -15,5 +19,9 @@ export class MovieService {
 
   getById(movieId: string): Observable<MovieByIdResponse> {
     return this.http.get<MovieByIdResponse>(`${this.base}/movies/${movieId}`);
+  }
+
+  getAll(): Observable<MoviesResponse> {
+    return this.http.get<MoviesResponse>(`${this.base}/movies`);
   }
 }
