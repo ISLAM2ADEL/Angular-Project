@@ -7,9 +7,9 @@ import { Component, Input } from '@angular/core';
   styleUrl: './booking-movie-card.css',
 })
 export class BookingMovieCard {
-  @Input() imageUrl!: string;
+  @Input() poster!: string;
   @Input() rating!: string;
   @Input() title!: string;
-  @Input() genre!: string;
-  @Input() duration!: string;
+  @Input() genre!: string[];
+  @Input() duration!: number;
 }
