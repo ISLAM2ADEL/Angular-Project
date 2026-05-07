@@ -37,11 +37,6 @@ export const routes: Routes = [
     canActivate:[authGuard]
   },
   {
-    path: 'checkout',
-    component: Checkout,
-    canActivate:[authGuard]
-  },
-  {
     path: 'checkout/:movieId/:showTimeId/:seatId',
     component: Checkout,
     canActivate:[authGuard]

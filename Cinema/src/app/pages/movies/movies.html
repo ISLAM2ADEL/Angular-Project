@@ -5,7 +5,7 @@
 <div class="movies-container">
     @for (movie of filteredMovies(); track movie._id) {
     <app-booking-movie-card [poster]="movie.poster" [rating]="movie.rating" [title]="movie.title" [genre]="movie.genre"
-        [duration]="movie.duration">
+        [duration]="movie.duration" [routerLink]="['/movie', movie._id]" style="cursor: pointer;">
     </app-booking-movie-card>
     }
 </div>

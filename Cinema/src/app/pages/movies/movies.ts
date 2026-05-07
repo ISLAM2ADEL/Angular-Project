@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { SearchBar } from "../../components/search-bar/search-bar";
 import { FiltersBar } from "../../components/filters-bar/filters-bar";
 import { BookingMovieCard } from "../../components/booking-movie-card/booking-movie-card";
@@ -7,7 +8,7 @@ import { Movie } from '../../models/cinema.models';
 
 @Component({
   selector: 'app-movies',
-  imports: [SearchBar, FiltersBar, BookingMovieCard],
+  imports: [SearchBar, FiltersBar, BookingMovieCard, RouterLink],
   templateUrl: './movies.html',
   styleUrl: './movies.css',
 })
