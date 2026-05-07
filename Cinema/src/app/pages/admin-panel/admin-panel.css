@@ -35,8 +35,8 @@
 
 .stats-section {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
 }
 
 /* Manage Movies Section */
@@ -104,7 +104,7 @@
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 1.5rem;
-  min-width: 760px;
+  min-width: 850px;
 }
 
 .movies-table th {
@@ -154,15 +154,24 @@
   color: var(--text-muted);
 }
 
+.genre-tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  max-width: 200px;
+}
+
 .genre-tag {
+  display: inline-block;
   background: var(--bg-color);
-  padding: 0.35rem 1rem;
+  padding: 0.3rem 0.7rem;
   border-radius: 50px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 0.65rem;
+  font-weight: 700;
   color: var(--primary-accent-600);
   box-shadow: var(--inner-shadow);
   border: 1px solid var(--border-color);
+  white-space: nowrap;
 }
 
 .release-date {
@@ -474,14 +483,40 @@
 }
 
 /* Responsive */
+@media (max-width: 1200px) {
+  .stats-section {
+    gap: 1.5rem;
+  }
+  
+  .search-bar {
+    width: 260px;
+  }
+}
+
 @media (max-width: 1024px) {
   .stats-section {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    gap: 1.5rem;
+  }
+
+  .manage-movies-section,
+  .popular-movies-section,
+  .device-usage-section {
+    padding: 1.5rem;
   }
 
   .all-movies-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 850px) {
+  .section-header {
+    flex-wrap: wrap;
+  }
+  
+  .section-header h2 {
+    font-size: 1.5rem;
   }
 }
 

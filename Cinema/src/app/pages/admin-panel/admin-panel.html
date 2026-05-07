@@ -51,7 +51,13 @@
                 </div>
               </div>
             </td>
-            <td><span class="genre-tag">{{ movie.genre.join(', ') }}</span></td>
+            <td>
+              <div class="genre-tags-container">
+                @for (g of movie.genre; track g) {
+                  <span class="genre-tag">{{ g }}</span>
+                }
+              </div>
+            </td>
             <td class="release-date">{{ movie.releaseDate | date: 'MMM d, y' }}</td>
             <td>
               <span class="status-indicator" [class.showing]="movie.isNowShowing"
@@ -105,7 +111,13 @@
                 <div class="all-movie-meta">
                   <div class="all-movie-title">{{ movie.title }}</div>
                   <div class="all-movie-sub">{{ movie.duration }} mins • {{ movie.rating }} • {{ movie.language }}</div>
-                  <div class="all-movie-genre">{{ movie.genre.join(', ') }}</div>
+                  <div class="all-movie-genre">
+                    <div class="genre-tags-container">
+                      @for (g of movie.genre; track g) {
+                        <span class="genre-tag">{{ g }}</span>
+                      }
+                    </div>
+                  </div>
                 </div>
                 <div class="all-movie-actions">
                   <button class="action-btn" type="button" (click)="openEditMovie(movie); closeAllMovies()">

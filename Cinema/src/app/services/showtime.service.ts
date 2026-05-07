@@ -27,4 +27,8 @@ export class ShowtimeService {
   getById(showtimeId: string): Observable<ShowtimeByIdResponse> {
     return this.http.get<ShowtimeByIdResponse>(`${this.base}/showtimes/${showtimeId}`);
   }
+
+  create(payload: any): Observable<any> {
+    return this.http.post<any>(`${this.base}/showtimes`, payload);
+  }
 }

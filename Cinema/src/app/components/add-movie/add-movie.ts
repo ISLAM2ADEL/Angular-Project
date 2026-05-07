@@ -4,8 +4,10 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
 
 import { FormInput } from '../input/input';
 import { ToasterService } from '../../services/toaster.service';
-import { MovieService } from '../../services/movie.service';
-import { CreateMoviePayload } from '../../services/movie.service';
+import { MovieService, CreateMoviePayload } from '../../services/movie.service';
+import { ShowtimeService } from '../../services/showtime.service';
+import { HallService } from '../../services/hall.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-add-movie',
@@ -19,6 +21,9 @@ export class AddMovie {
   @Output() saved = new EventEmitter<void>();
 
   private movieService = inject(MovieService);
+  private showtimeService = inject(ShowtimeService);
+  private hallService = inject(HallService);
+  private defaultHallId: string | null = null;
 
   posterPreview = '';
 
@@ -53,9 +58,13 @@ export class AddMovie {
 
   ratingOptions = ['G', 'PG', 'PG-13', 'R', 'NC-17'];
   statusOptions: Array<'Showing' | 'Upcoming'> = ['Showing', 'Upcoming'];
-  showTimesOptions = ['10:00 AM', '01:00 PM', '04:00 PM', '07:00 PM', '10:00 PM'];
+  showTimesOptions = ['10:00 AM', '1:00 PM', '4:00 PM', '7:00 PM', '10:00 PM'];
 
-  constructor(private toaster: ToasterService) {}
+  constructor(private toaster: ToasterService) {
+    this.hallService.getAll().subscribe(res => {
+      if (res.data?.length) this.defaultHallId = res.data[0]._id;
+    });
+  }
 
   onClose() {
     this.close.emit();
@@ -79,15 +88,54 @@ export class AddMovie {
     };
 
     this.movieService.create(payload).subscribe({
-      next: () => {
-        this.toaster.success(`Movie "${payload.title}" added successfully!`);
-        this.saved.emit();
-        this.onClose();
+      next: (res: any) => {
+        const newMovieId = res.data?._id;
+        
+        if (newMovieId && v.showTimes?.length && this.defaultHallId) {
+          const showtimeRequests = v.showTimes.map((timeStr: string) => {
+            const startTime = this.combineDateAndTime(v.releaseDate!, timeStr);
+            return this.showtimeService.create({
+              movie: newMovieId,
+              hallId: this.defaultHallId,
+              startTime: startTime.toISOString(),
+              price: 15.0 // Default price
+            });
+          });
+
+          forkJoin(showtimeRequests).subscribe({
+            next: () => {
+              this.toaster.success(`Movie "${payload.title}" and its showtimes added!`);
+              this.saved.emit();
+              this.onClose();
+            },
+            error: () => {
+              this.toaster.warning(`Movie added, but failed to create some showtimes.`);
+              this.saved.emit();
+              this.onClose();
+            }
+          });
+        } else {
+          this.toaster.success(`Movie "${payload.title}" added successfully!`);
+          this.saved.emit();
+          this.onClose();
+        }
       },
       error: (err) => {
         this.toaster.error(err?.error?.message || 'Failed to add movie.');
       },
     });
+  }
+
+  combineDateAndTime(dateStr: string, timeStr: string): Date {
+    const date = new Date(dateStr);
+    const [time, ampm] = timeStr.split(' ');
+    let [hours, minutes] = time.split(':').map(Number);
+    
+    if (ampm === 'PM' && hours < 12) hours += 12;
+    if (ampm === 'AM' && hours === 12) hours = 0;
+    
+    date.setHours(hours, minutes, 0, 0);
+    return date;
   }
 
   onPosterChanged() {
