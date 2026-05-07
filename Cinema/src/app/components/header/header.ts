@@ -19,6 +19,11 @@ export class Header {
     return !!localStorage.getItem('token'); 
   }
 
+  get isAdmin(): boolean {
+    const role = localStorage.getItem('role');
+    return role?.toLowerCase() === 'admin';
+  }
+
   logOut(){
     localStorage.removeItem('token');
     this.router.navigate(['/sign-in']);

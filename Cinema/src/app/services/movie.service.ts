@@ -8,9 +8,13 @@ export interface MovieByIdResponse {
   data: Movie;
 }
 
-interface MoviesResponse {
-  data: Movie[]
+export interface MoviesResponse {
+  count?: number;
+  data: Movie[];
 }
+
+export type CreateMoviePayload = Omit<Movie, '_id'>;
+export type UpdateMoviePayload = Partial<Omit<Movie, '_id'>>;
 
 @Injectable({ providedIn: 'root' })
 export class MovieService {
@@ -21,7 +25,20 @@ export class MovieService {
     return this.http.get<MovieByIdResponse>(`${this.base}/movies/${movieId}`);
   }
 
-  getAll(): Observable<MoviesResponse> {
-    return this.http.get<MoviesResponse>(`${this.base}/movies`);
+  getAll(params?: { nowShowing?: boolean }): Observable<MoviesResponse> {
+    const query = params?.nowShowing === undefined ? '' : `?nowShowing=${params.nowShowing}`;
+    return this.http.get<MoviesResponse>(`${this.base}/movies${query}`);
+  }
+
+  create(payload: CreateMoviePayload): Observable<{ message: string; data: Movie }> {
+    return this.http.post<{ message: string; data: Movie }>(`${this.base}/movies`, payload);
+  }
+
+  update(movieId: string, payload: UpdateMoviePayload): Observable<{ message: string; data: Movie }> {
+    return this.http.put<{ message: string; data: Movie }>(`${this.base}/movies/${movieId}`, payload);
+  }
+
+  delete(movieId: string): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.base}/movies/${movieId}`);
   }
 }

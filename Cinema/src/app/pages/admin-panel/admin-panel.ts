@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType, Chart, registerables } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { StatCard } from "../../components/stat-card/stat-card";
@@ -6,6 +6,9 @@ import { RouterLink } from "@angular/router";
 import { AddMovie } from "../../components/add-movie/add-movie";
 import { EditMovie } from "../../components/edit-movie/edit-movie";
 import { CommonModule } from "@angular/common";
+import { Movie } from '../../models/cinema.models';
+import { MovieService } from '../../services/movie.service';
+import { ToasterService } from '../../services/toaster.service';
 
 Chart.register(...registerables);
 
@@ -15,7 +18,13 @@ Chart.register(...registerables);
   templateUrl: './admin-panel.html',
   styleUrl: './admin-panel.css',
 })
-export class AdminPanel {
+export class AdminPanel implements OnInit {
+  private movieService = inject(MovieService);
+  private toaster = inject(ToasterService);
+
+  searchTerm = '';
+  showAllMoviesModal = false;
+
   // Chart configuration
   public doughnutChartLabels: string[] = ['Mobile', 'Web', 'Kiosk'];
   public doughnutChartData: ChartData<'doughnut'> = {
@@ -80,41 +89,26 @@ export class AdminPanel {
     }
   ];
 
-  movies = [
-    {
-      title: 'Chronicles of Night',
-      duration: '142 mins',
-      rating: 'PG-13',
-      genre: 'Sci-Fi',
-      releaseDate: 'Oct 12, 2024',
-      status: 'Showing',
-      thumbnail: '/spiderman.jpg',
-      description: 'A deep dive into the mysteries of the night.',
-      showTimes: ['10:00 AM', '04:00 PM']
-    },
-    {
-      title: 'The Silent Echo',
-      duration: '118 mins',
-      rating: 'R',
-      genre: 'Thriller',
-      releaseDate: 'Sep 28, 2024',
-      status: 'Showing',
-      thumbnail: '/spiderman.jpg',
-      description: 'The silence holds secrets no one wants to hear.',
-      showTimes: ['01:00 PM', '07:00 PM']
-    },
-    {
-      title: 'Skyward Bound',
-      duration: '95 mins',
-      rating: 'G',
-      genre: 'Animation',
-      releaseDate: 'Nov 05, 2024',
-      status: 'Upcoming',
-      thumbnail: '/spiderman.jpg',
-      description: 'A journey beyond the clouds.',
-      showTimes: ['10:00 AM', '01:00 PM']
-    }
-  ];
+  movies: Movie[] = [];
+  isLoadingMovies = false;
+
+  get filteredMovies(): Movie[] {
+    const t = this.searchTerm.trim().toLowerCase();
+    if (!t) return this.movies;
+
+    return this.movies.filter((m) => {
+      const title = (m.title || '').toLowerCase();
+      const rating = (m.rating || '').toLowerCase();
+      const language = (m.language || '').toLowerCase();
+      const genres = Array.isArray(m.genre) ? m.genre.join(' ').toLowerCase() : '';
+      return (
+        title.includes(t) ||
+        rating.includes(t) ||
+        language.includes(t) ||
+        genres.includes(t)
+      );
+    });
+  }
 
   popularMovies = [
     { title: 'Chronicles of Night', occupancy: 88 },
@@ -125,7 +119,25 @@ export class AdminPanel {
 
   showAddMovieModal = false;
   showEditMovieModal = false;
-  selectedMovie: any = null;
+  selectedMovie: Movie | null = null;
+
+  ngOnInit(): void {
+    this.loadMovies();
+  }
+
+  loadMovies() {
+    this.isLoadingMovies = true;
+    this.movieService.getAll().subscribe({
+      next: (res) => {
+        this.movies = res.data || [];
+        this.isLoadingMovies = false;
+      },
+      error: (err) => {
+        this.isLoadingMovies = false;
+        this.toaster.error(err?.error?.message || 'Failed to load movies.');
+      }
+    });
+  }
 
   openAddMovie() {
     this.showAddMovieModal = true;
@@ -135,13 +147,38 @@ export class AdminPanel {
     this.showAddMovieModal = false;
   }
 
-  openEditMovie(movie: any) {
-    this.selectedMovie = { ...movie, name: movie.title }; // Map title to name for the form
+  openEditMovie(movie: Movie) {
+    this.selectedMovie = movie;
     this.showEditMovieModal = true;
   }
 
   closeEditMovie() {
     this.showEditMovieModal = false;
     this.selectedMovie = null;
+  }
+
+  onSearch(value: string) {
+    this.searchTerm = value;
+  }
+
+  openAllMovies() {
+    this.showAllMoviesModal = true;
+  }
+
+  closeAllMovies() {
+    this.showAllMoviesModal = false;
+  }
+
+  deleteMovie(movie: Movie) {
+    if (!movie?._id) return;
+    this.movieService.delete(movie._id).subscribe({
+      next: () => {
+        this.toaster.success(`Movie "${movie.title}" deleted successfully!`);
+        this.loadMovies();
+      },
+      error: (err) => {
+        this.toaster.error(err?.error?.message || 'Failed to delete movie.');
+      }
+    });
   }
 }

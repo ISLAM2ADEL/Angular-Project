@@ -60,7 +60,7 @@ export const routes: Routes = [
     path: 'admin-panel',
     component: AdminPanel,
     canActivate: [roleGuard],
-    data: { role: 'Admin' }
+    data: { role: 'admin' }
   },
   {
     path: '**',

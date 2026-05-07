@@ -14,45 +14,49 @@
     <div class="profile-section">
       <div class="icon-container">
         <div class="camera-icon">
-          <img [src]="movie.thumbnail || '/video.svg'" alt="camera" [class.uploaded]="!!movie.thumbnail">
+          <img [src]="movieForm.controls.poster.value || '/video.svg'" alt="poster" [class.uploaded]="!!movieForm.controls.poster.value">
         </div>
-        <button class="edit-icon" type="button" (click)="fileInput.click()">
-          <img src="/edit.svg" alt="edit">
-        </button>
-        <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" hidden>
       </div>
     </div>
 
-    <form (ngSubmit)="onSubmit()" #editForm="ngForm">
+    <form [formGroup]="movieForm" (ngSubmit)="onSubmit()">
       <div class="form-grid">
-        <app-form-input label="Name" name="name" [(ngModel)]="movie.name" [control]="name" required #name="ngModel"
-          errorMsg="name field is required" />
+        <app-form-input label="Title"
+          [control]="movieForm.controls.title" errorMsg="title field is required" />
 
-        <app-form-input label="Title" name="title" [(ngModel)]="movie.title" [control]="title" required #title="ngModel"
-          errorMsg="title field is required" />
+        <app-form-input label="Duration (mins)" type="number" placeholder="120"
+          [control]="movieForm.controls.duration" errorMsg="duration is required" />
 
-        <app-form-input label="Duration" name="duration" [(ngModel)]="movie.duration" [control]="duration" required
-          #duration="ngModel" errorMsg="duration field is required" />
+        <app-form-input label="Genre" placeholder="Choose genre(s)"
+          [control]="movieForm.controls.genre" errorMsg="genre is required" [isMultiSelect]="true"
+          [options]="genresOptions" [isDropShadow]="true" />
 
-        <app-form-input label="Category" name="category" [(ngModel)]="movie.category" [control]="category" required
-          #category="ngModel" errorMsg="category field is required" [isSelect]="true" [options]="categories" 
-          [isDropShadow]="true" />
+        <app-form-input label="Status" placeholder="Choose status"
+          [control]="movieForm.controls.isNowShowing" errorMsg="status is required" [isSelect]="true"
+          [options]="statusOptions" [isDropShadow]="true" />
       </div>
 
-      <app-form-input label="Description" name="description" [(ngModel)]="movie.description" [control]="desc" required
-        #desc="ngModel" errorMsg="description field is required" [isTextarea]="true" [fullWidth]="true" />
+      <app-form-input label="Description" [control]="movieForm.controls.description" errorMsg="description field is required" 
+        [isTextarea]="true" [fullWidth]="true" />
 
       <div class="form-grid">
-        <app-form-input label="Date Time" name="dateTime" [(ngModel)]="movie.dateTime" type="date" iconUrl="/calendar2.svg" 
-          [isDropShadow]="true" [control]="dateTime" required #dateTime="ngModel" errorMsg="date field is required" />
+        <app-form-input label="Release Date" placeholder="Choose date"
+          type="date" iconUrl="/calendar2.svg" [isDropShadow]="true" [control]="movieForm.controls.releaseDate" 
+          errorMsg="release date is required" />
 
-        <app-form-input label="Show Times" name="showTimes" [(ngModel)]="movie.showTimes" iconUrl="/clock.svg" 
-          [isMultiSelect]="true" [options]="showTimesOptions" [isDropShadow]="true" [control]="showTimes" 
-          required #showTimes="ngModel" errorMsg="show times are required" />
+        <app-form-input label="Poster URL" placeholder="https://..."
+          [control]="movieForm.controls.poster" errorMsg="poster url is required" />
+
+        <app-form-input label="Rating" placeholder="Choose rating"
+          [control]="movieForm.controls.rating" errorMsg="rating is required" [isSelect]="true"
+          [options]="ratingOptions" [isDropShadow]="true" />
+
+        <app-form-input label="Language" placeholder="English"
+          [control]="movieForm.controls.language" errorMsg="language is required" />
       </div>
 
       <div class="form-actions">
-        <button type="submit" class="submit-btn" [disabled]="editForm.invalid">
+        <button type="submit" class="submit-btn" [disabled]="movieForm.invalid">
           <img src="/check.svg" alt="check">
           Update Movie
         </button>

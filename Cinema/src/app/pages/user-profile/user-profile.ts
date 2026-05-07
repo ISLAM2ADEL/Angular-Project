@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Button } from '../../components/button/button';
 import { UserService } from '../../services/user.service';
 import { BookingService } from '../../services/booking.service';
-import Swal from 'sweetalert2';
+import Swal, { SweetAlertResult } from 'sweetalert2';
 
 interface Booking {
   id: string;
@@ -130,7 +130,7 @@ export class UserProfile implements OnInit {
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3b1e2a',
       confirmButtonText: 'Yes, cancel it!'
-    }).then((result) => {
+    }).then((result: SweetAlertResult) => {
       if (result.isConfirmed) {
         this.bookingService.cancelBooking(id).subscribe({
           next: (res) => {

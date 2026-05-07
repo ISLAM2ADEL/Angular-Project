@@ -1,34 +1,57 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { FormInput } from '../input/input';
-import { Categories } from '../../enums/Categories';
 import { ToasterService } from '../../services/toaster.service';
+import { MovieService } from '../../services/movie.service';
+import { CreateMoviePayload } from '../../services/movie.service';
 
 @Component({
   selector: 'app-add-movie',
   standalone: true,
-  imports: [CommonModule, FormsModule, FormInput],
+  imports: [CommonModule, ReactiveFormsModule, FormInput],
   templateUrl: './add-movie.html',
   styleUrl: './add-movie.css'
 })
 export class AddMovie {
   @Output() close = new EventEmitter<void>();
+  @Output() saved = new EventEmitter<void>();
 
-  movie = {
-    name: '',
-    title: '',
-    duration: '',
-    category: '',
-    description: '',
-    dateTime: '',
-    showTimes: [] as string[],
-    thumbnail: ''
-  };
+  private movieService = inject(MovieService);
 
-  categories = Object.values(Categories);
-  showTimesOptions = ['10:00 AM', '01:00 PM', '04:00 PM', '07:00 PM', '10:00 PM'];
+  posterPreview = '';
+
+  movieForm = new FormGroup({
+    title: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
+    duration: new FormControl<number | null>(null, [Validators.required, Validators.min(1)]),
+    genre: new FormControl<string[]>([], Validators.required),
+    rating: new FormControl('', Validators.required),
+    language: new FormControl('', Validators.required),
+    poster: new FormControl('', [Validators.required]),
+    releaseDate: new FormControl('', Validators.required),
+    isNowShowing: new FormControl<'Showing' | 'Upcoming'>('Upcoming', Validators.required),
+  });
+
+  genresOptions = [
+    'Action',
+    'Drama',
+    'Comedy',
+    'Horror',
+    'Thriller',
+    'Sci-Fi',
+    'Romance',
+    'Animation',
+    'Documentary',
+    'Adventure',
+    'Fantasy',
+    'Mystery',
+    'Crime',
+  ];
+
+  ratingOptions = ['G', 'PG', 'PG-13', 'R', 'NC-17'];
+  statusOptions: Array<'Showing' | 'Upcoming'> = ['Showing', 'Upcoming'];
 
   constructor(private toaster: ToasterService) {}
 
@@ -37,19 +60,34 @@ export class AddMovie {
   }
 
   onSubmit() {
-    console.log('Movie Added:', this.movie);
-    this.toaster.success(`Movie "${this.movie.title || this.movie.name}" added successfully!`);
-    this.onClose();
+    if (this.movieForm.invalid) return;
+
+    const v = this.movieForm.getRawValue();
+    const payload: CreateMoviePayload = {
+      title: v.title!,
+      description: v.description!,
+      duration: Number(v.duration),
+      genre: v.genre || [],
+      rating: v.rating!,
+      language: v.language!,
+      poster: v.poster!,
+      releaseDate: v.releaseDate!,
+      isNowShowing: v.isNowShowing === 'Showing',
+    };
+
+    this.movieService.create(payload).subscribe({
+      next: () => {
+        this.toaster.success(`Movie "${payload.title}" added successfully!`);
+        this.saved.emit();
+        this.onClose();
+      },
+      error: (err) => {
+        this.toaster.error(err?.error?.message || 'Failed to add movie.');
+      },
+    });
   }
 
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.movie.thumbnail = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
+  onPosterChanged() {
+    this.posterPreview = String(this.movieForm.controls.poster.value || '');
   }
 }

@@ -1,7 +1,7 @@
 <header class="header">
   <div class="container">
     <div class="logo">
-      <img src="logo icon.svg" class="icon">
+      <img src="logo icon.svg" class="icon icon-themed">
       <span class="brand sharp-font-boldest">CinePremium</span>
     </div>
     <nav class="nav">
@@ -11,7 +11,10 @@
     <div class="actions">
       <app-button variant="icon-only" iconPath="theme icon.svg" (btnClick)="changeTheme()"></app-button>
       @if(isUserLoggedIn) {
-        <app-button routerLink="/profile" label="Profile" iconPath="sign up icon.svg" variant="secondary"></app-button>
+        <app-button [routerLink]="isAdmin ? '/admin-panel' : '/profile'" 
+                    [label]="isAdmin ? 'Admin Panel' : 'Profile'" 
+                    [iconPath]="isAdmin ? 'magic.svg' : 'sign up icon.svg'" 
+                    variant="secondary"></app-button>
         <app-button label="Logout" iconPath="logout-02.svg" variant="secondary" (btnClick)="logOut()"></app-button>
       } @else {
         <app-button routerLink="/sign-up" label="Sign Up" iconPath="sign up icon.svg" variant="secondary"></app-button>

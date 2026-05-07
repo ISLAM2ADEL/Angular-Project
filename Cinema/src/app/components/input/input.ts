@@ -1,22 +1,15 @@
-import { Component, Input, forwardRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { ReactiveFormsModule, FormControl, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-form-input',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './input.html',
-  styleUrl: './input.css',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => FormInput),
-      multi: true
-    }
-  ]
+  styleUrl: './input.css'
 })
-export class FormInput implements ControlValueAccessor {
+export class FormInput {
   @Input() label: string = '';
   @Input() placeholder: string = '';
   @Input() type: string = 'text';
@@ -27,39 +20,13 @@ export class FormInput implements ControlValueAccessor {
   @Input() isSelect: boolean = false;
   @Input() isMultiSelect: boolean = false;
   @Input() options: string[] = [];
-  @Input() control: any; // For validation status
+  @Input() control: any;
   @Input() fullWidth: boolean = false;
   @Input() isDropShadow: boolean = false;
 
   uniqueId = 'input-' + Math.random().toString(36).substring(2, 9);
-
+  
   @ViewChild('nativeInput') nativeInput?: ElementRef<HTMLInputElement>;
-
-  value: string = '';
-  onChange: any = () => {};
-  onTouched: any = () => {};
-
-  writeValue(value: any): void {
-    this.value = value;
-  }
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  onModelChange(val: any) {
-    this.value = val;
-    this.onChange(val);
-  }
-
-  onInput(event: any) {
-    this.value = event.target.value;
-    this.onChange(this.value);
-  }
 
   openPicker() {
     if (this.type === 'date' && this.nativeInput?.nativeElement?.showPicker) {
@@ -72,21 +39,22 @@ export class FormInput implements ControlValueAccessor {
   }
 
   toggleOption(option: string) {
+    if (!this.control) return;
+    
     if (this.isMultiSelect) {
-      const currentValues = Array.isArray(this.value) ? [...this.value] : [];
+      const currentValues = Array.isArray(this.control.value) ? [...this.control.value] : [];
       const index = currentValues.indexOf(option);
       if (index > -1) {
         currentValues.splice(index, 1);
       } else {
         currentValues.push(option);
       }
-      this.value = currentValues as any;
+      this.control.setValue(currentValues);
     } else {
-      this.value = option;
+      this.control.setValue(option);
       this.showDropdown = false;
     }
-    this.onChange(this.value);
-    this.onTouched();
+    this.control.markAsTouched();
   }
 
   showDropdown = false;
@@ -95,16 +63,18 @@ export class FormInput implements ControlValueAccessor {
   }
 
   isSelected(option: string): boolean {
-    if (this.isMultiSelect && Array.isArray(this.value)) {
-      return this.value.includes(option);
+    if (!this.control) return false;
+    if (this.isMultiSelect && Array.isArray(this.control.value)) {
+      return this.control.value.includes(option);
     }
-    return this.value === option;
+    return this.control.value === option;
   }
 
   getDisplayValue(): string {
-    if (this.isMultiSelect && Array.isArray(this.value)) {
-      return this.value.length > 0 ? this.value.join(', ') : this.placeholder;
+    if (!this.control) return this.placeholder;
+    if (this.isMultiSelect && Array.isArray(this.control.value)) {
+      return this.control.value.length > 0 ? this.control.value.join(', ') : this.placeholder;
     }
-    return this.value || this.placeholder;
+    return this.control.value || this.placeholder;
   }
 }
