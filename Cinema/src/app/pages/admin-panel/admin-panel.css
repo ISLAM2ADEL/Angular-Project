@@ -533,3 +533,34 @@
     border-radius: 10px;
   }
 }
+
+.load-more-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  padding-bottom: 1rem;
+}
+
+.load-more-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 0.75rem 2rem;
+  border-radius: 50px;
+  color: var(--primary-accent-800);
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.load-more-btn:hover:not(:disabled) {
+  background: var(--primary-accent-100);
+  transform: translateY(-2px);
+  color: var(--primary-accent-900);
+}
+
+.load-more-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

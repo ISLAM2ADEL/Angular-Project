@@ -25,8 +25,16 @@ export class MovieService {
     return this.http.get<MovieByIdResponse>(`${this.base}/movies/${movieId}`);
   }
 
-  getAll(params?: { nowShowing?: boolean }): Observable<MoviesResponse> {
-    const query = params?.nowShowing === undefined ? '' : `?nowShowing=${params.nowShowing}`;
+  getAll(params?: { nowShowing?: boolean; limit?: number; page?: number; search?: string }): Observable<MoviesResponse> {
+    let query = '';
+    const parts = [];
+    if (params?.nowShowing !== undefined) parts.push(`nowShowing=${params.nowShowing}`);
+    if (params?.limit !== undefined) parts.push(`limit=${params.limit}`);
+    if (params?.page !== undefined) parts.push(`page=${params.page}`);
+    if (params?.search) parts.push(`search=${encodeURIComponent(params.search)}`);
+    
+    if (parts.length > 0) query = `?${parts.join('&')}`;
+    
     return this.http.get<MoviesResponse>(`${this.base}/movies${query}`);
   }
 

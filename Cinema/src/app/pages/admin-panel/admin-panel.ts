@@ -2,7 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType, Chart, registerables } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { StatCard } from "../../components/stat-card/stat-card";
-import { RouterLink } from "@angular/router";
 import { AddMovie } from "../../components/add-movie/add-movie";
 import { EditMovie } from "../../components/edit-movie/edit-movie";
 import { CommonModule } from "@angular/common";
@@ -89,25 +88,20 @@ export class AdminPanel implements OnInit {
     }
   ];
 
-  movies: Movie[] = [];
+  movies: Movie[] = []; // Used for the main table (limited to 5)
+  modalMovies: Movie[] = []; // Used for the "All Movies" modal
   isLoadingMovies = false;
+  isLoadingModal = false;
+  modalLimit = 10;
+  hasMoreModalMovies = true;
 
   get filteredMovies(): Movie[] {
-    const t = this.searchTerm.trim().toLowerCase();
-    if (!t) return this.movies;
+    // We return movies directly since filtering is now handled server-side for performance
+    return this.movies;
+  }
 
-    return this.movies.filter((m) => {
-      const title = (m.title || '').toLowerCase();
-      const rating = (m.rating || '').toLowerCase();
-      const language = (m.language || '').toLowerCase();
-      const genres = Array.isArray(m.genre) ? m.genre.join(' ').toLowerCase() : '';
-      return (
-        title.includes(t) ||
-        rating.includes(t) ||
-        language.includes(t) ||
-        genres.includes(t)
-      );
-    });
+  get filteredModalMovies(): Movie[] {
+    return this.modalMovies;
   }
 
   popularMovies = [
@@ -127,7 +121,7 @@ export class AdminPanel implements OnInit {
 
   loadMovies() {
     this.isLoadingMovies = true;
-    this.movieService.getAll().subscribe({
+    this.movieService.getAll({ limit: 5, search: this.searchTerm }).subscribe({
       next: (res) => {
         this.movies = res.data || [];
         this.isLoadingMovies = false;
@@ -137,6 +131,26 @@ export class AdminPanel implements OnInit {
         this.toaster.error(err?.error?.message || 'Failed to load movies.');
       }
     });
+  }
+
+  loadModalMovies() {
+    this.isLoadingModal = true;
+    this.movieService.getAll({ limit: this.modalLimit, search: this.searchTerm }).subscribe({
+      next: (res) => {
+        this.modalMovies = res.data || [];
+        this.hasMoreModalMovies = this.modalMovies.length >= this.modalLimit;
+        this.isLoadingModal = false;
+      },
+      error: (err) => {
+        this.isLoadingModal = false;
+        this.toaster.error(err?.error?.message || 'Failed to load all movies.');
+      }
+    });
+  }
+
+  loadMoreModalMovies() {
+    this.modalLimit += 5;
+    this.loadModalMovies();
   }
 
   openAddMovie() {
@@ -159,9 +173,15 @@ export class AdminPanel implements OnInit {
 
   onSearch(value: string) {
     this.searchTerm = value;
+    this.loadMovies();
+    if (this.showAllMoviesModal) {
+      this.loadModalMovies();
+    }
   }
 
   openAllMovies() {
+    this.modalLimit = 10;
+    this.loadModalMovies();
     this.showAllMoviesModal = true;
   }
 
@@ -175,6 +195,9 @@ export class AdminPanel implements OnInit {
       next: () => {
         this.toaster.success(`Movie "${movie.title}" deleted successfully!`);
         this.loadMovies();
+        if (this.showAllMoviesModal) {
+          this.loadModalMovies();
+        }
       },
       error: (err) => {
         this.toaster.error(err?.error?.message || 'Failed to delete movie.');

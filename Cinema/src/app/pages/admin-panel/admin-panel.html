@@ -35,7 +35,7 @@
       </tr>
     </thead>
     <tbody>
-      @if (isLoadingMovies) {
+      @if (isLoadingMovies && movies.length === 0) {
         <tr>
           <td colspan="5" class="release-date">Loading movies...</td>
         </tr>
@@ -93,11 +93,13 @@
       </div>
 
       <div class="admin-modal-body">
-        @if (filteredMovies.length === 0) {
+        @if (isLoadingModal && modalMovies.length === 0) {
+          <div class="admin-empty">Loading movies...</div>
+        } @else if (modalMovies.length === 0) {
           <div class="admin-empty">No movies match your search.</div>
         } @else {
           <div class="all-movies-grid">
-            @for (movie of filteredMovies; track movie._id) {
+            @for (movie of filteredModalMovies; track movie._id) {
               <div class="all-movie-card">
                 <img class="all-movie-poster" [src]="movie.poster" [alt]="movie.title" loading="lazy">
                 <div class="all-movie-meta">
@@ -116,6 +118,14 @@
               </div>
             }
           </div>
+
+          @if (hasMoreModalMovies) {
+            <div class="load-more-container">
+              <button type="button" class="load-more-btn" (click)="loadMoreModalMovies()" [disabled]="isLoadingModal">
+                {{ isLoadingModal ? 'Loading more...' : 'Load More' }}
+              </button>
+            </div>
+          }
         }
       </div>
     </div>
