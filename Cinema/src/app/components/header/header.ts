@@ -1,13 +1,17 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from "@angular/router";
+import { ThemeService } from '../../services/ThemeService';
+import { Button } from '../button/button';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink],
+  imports: [RouterLink, Button],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
 export class Header {
+
+  darkTheme = inject(ThemeService);
 
   protected readonly title = signal('Cinema');
   private router=inject(Router);
@@ -18,5 +22,9 @@ export class Header {
   logOut(){
     localStorage.removeItem('token');
     this.router.navigate(['/sign-in']);
+  }
+  changeTheme(){
+    this.darkTheme.toggleDarkMode();
+    console.log("hello ");
   }
  }
