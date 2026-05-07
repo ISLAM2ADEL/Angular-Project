@@ -10,6 +10,22 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+@media (max-width: 768px) {
+    .card-container {
+        width: min(100%, 350px);
+        padding: 16px;
+        margin-inline: auto;
+    }
+
+    .content {
+        margin-left: 16px;
+    }
+
+    .title {
+        font-size: 1.25rem;
+    }
+}
+
 .card-container:hover {
     transform: translateY(-8px);
     box-shadow: var(--shadow-deep);

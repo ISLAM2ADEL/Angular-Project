@@ -1,5 +1,5 @@
 // 1. ضيفي ChangeDetectorRef في الـ import
-import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatbotService } from '../../services/chatbot';
@@ -17,7 +17,7 @@ interface ChatMessage {
   templateUrl: './chat-bot.html',
   styleUrls: ['./chat-bot.css']
 })
-export class ChatBot {
+export class ChatBot implements OnDestroy {
   isOpen: boolean = false;
   newMessage: string = '';
   
@@ -30,6 +30,19 @@ export class ChatBot {
 
   toggleChat() {
     this.isOpen = !this.isOpen;
+  }
+
+  constructor() {
+    window.addEventListener('open-cinebot', this.handleOpenCinebot);
+  }
+
+  private handleOpenCinebot = () => {
+    this.isOpen = true;
+    this.cdr.detectChanges();
+  };
+
+  ngOnDestroy(): void {
+    window.removeEventListener('open-cinebot', this.handleOpenCinebot);
   }
 
   formatMessage(text: string): string {
