@@ -61,7 +61,7 @@
 }
 
 .btn-icon-only {
-  background: white;
+  background: var(--btn-secondary-bg);
   width: 2.875rem;
   height: 2.875rem;
   border-radius: 50%;

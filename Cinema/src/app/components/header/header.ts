@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from "@angular/router";
+import { ThemeService } from '../../services/ThemeService';
 
 @Component({
   selector: 'app-header',
@@ -8,6 +9,8 @@ import { Router, RouterLink } from "@angular/router";
   styleUrl: './header.css',
 })
 export class Header {
+
+  darkTheme = inject(ThemeService);
 
   protected readonly title = signal('Cinema');
   private router=inject(Router);
@@ -18,5 +21,9 @@ export class Header {
   logOut(){
     localStorage.removeItem('token');
     this.router.navigate(['/sign-in']);
+  }
+  changeTheme(){
+    this.darkTheme.toggleDarkMode();
+    console.log("hello ");
   }
  }

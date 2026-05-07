@@ -114,7 +114,7 @@
   padding: 20px 0;
   width: 100%;
   margin: 0 auto;
-  border-top: #1a1a1a solid 1px;
+  border-top: 1px solid var(--text-muted);
 }
 
 .legend-row {
@@ -157,8 +157,8 @@
 }
 
 .status-box.reserved {
-  background-color: #ffffff;
-  box-shadow: var(--inner-shadow-light);
+  background-color: var(--unavailable-seat);
+  box-shadow: var(--inner-shadow);
 }
 
 
@@ -216,7 +216,7 @@
 }
 
 .seat-badge {
-  background: white;
+  background: var(--bg-card);
   border-radius: 20px;
   padding: 8px 16px;
   font-weight: 600;
@@ -286,14 +286,14 @@
 }
 
 .btn-secondary {
-  background: white;
+  background: var(--bg-card);
   color: var(--btn-clicked);
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--text-muted);
+  box-shadow: var(--btn-shadow);
 }
 
 .btn-secondary:hover {
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--btn-shadow-hover);
   transform: translateY(-2px);
 }
 
