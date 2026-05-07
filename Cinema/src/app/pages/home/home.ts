@@ -6,10 +6,11 @@ import { FeaturedMovie } from "../../components/featured-movie/featured-movie";
 import { MovieService } from '../../services/movie.service';
 import { Movie } from '../../models/cinema.models';
 import { DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [FeatureCard, UpcomingCard, MovieCard, FeaturedMovie, DatePipe],
+  imports: [FeatureCard, UpcomingCard, MovieCard, FeaturedMovie, DatePipe, RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

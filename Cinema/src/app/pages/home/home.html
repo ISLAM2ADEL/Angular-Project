@@ -1,10 +1,11 @@
 <app-featured-movie [poster]="featuredMovie()?.poster??''" [title]="featuredMovie()?.title??''"
-    [description]="featuredMovie()?.description??''"></app-featured-movie>
+    [description]="featuredMovie()?.description??''" [id]="featuredMovie()?._id??''"></app-featured-movie>
 <h1 class="now-showing-title">Now Showing</h1>
 <div class="now-showing">
     @for (movie of nowShowingMovies(); track movie._id) {
     <app-movie-card [poster]="movie.poster" [title]="movie.title" [rating]="movie.rating"
-        [metadata]="`${movie.genre.join(', ')} — ${movie.duration}`"></app-movie-card>
+        [metadata]="`${movie.genre.join(', ')} — ${movie.duration}`"
+        [routerLink]="['/movie', movie._id]"></app-movie-card>
     }
 </div>
 <h1 class="features-title">Ultra-Luxe Experiences</h1>
