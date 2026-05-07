@@ -8,14 +8,14 @@ const router = express.Router();
  * @swagger
  * tags:
  *   name: Payments
- *   description: Stripe payment integration for bookings
+ *   description: Payment integration
  */
 
 /**
  * @swagger
- * /api/v1/payments/pay:
+ * /api/v1/payments/intent:
  *   post:
- *     summary: Create a Stripe payment intent
+ *     summary: Create a payment intent
  *     tags: [Payments]
  *     security:
  *       - bearerAuth: []
@@ -25,23 +25,21 @@ const router = express.Router();
  *         application/json:
  *           schema:
  *             type: object
- *             required: [amount, currency, bookingId]
+ *             required: [bookingId]
  *             properties:
- *               amount:
- *                 type: number
- *               currency:
- *                 type: string
  *               bookingId:
  *                 type: string
  *     responses:
  *       200:
- *         description: Payment intent created successfully
+ *         description: Intent created successfully
  *       400:
- *         description: Invalid amount or booking not found
+ *         description: Already paid
  *       401:
  *         description: Unauthorized
+ *       404:
+ *         description: Payment record not found
  */
-router.post("/pay", protect, paymentController.createPaymentIntent);
+router.post("/intent", protect, paymentController.createPaymentIntent);
 
 /**
  * @swagger
@@ -57,24 +55,36 @@ router.post("/pay", protect, paymentController.createPaymentIntent);
  *         application/json:
  *           schema:
  *             type: object
- *             required: [paymentId, bookingId, amount, currency]
+ *             required: [paymentId]
  *             properties:
  *               paymentId:
  *                 type: string
- *               bookingId:
- *                 type: string
- *               amount:
- *                 type: number
- *               currency:
- *                 type: string
  *     responses:
  *       200:
- *         description: Payment confirmed successfully
- *       400:
- *         description: Invalid payment details
+ *         description: Payment confirmed
  *       401:
  *         description: Unauthorized
+ *       404:
+ *         description: Payment record not found
  */
 router.post("/confirm", protect, paymentController.confirmPayment);
+
+/**
+ * @swagger
+ * /api/v1/payments/user-payments:
+ *   get:
+ *     summary: Get logged-in user's payments
+ *     tags: [Payments]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: User's payments retrieved successfully
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: server error
+ */
+router.get("/user-payments", protect, paymentController.getUserPayments);
 
 export default router;

@@ -1,9 +1,6 @@
 import Booking from "../models/bookingModel.js";
 import Payment from "../models/paymentModel.js";
 import Showtime from "../models/ShowtimeModel.js";
-import Stripe from "stripe";
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 async function checkSeatAvailability(showtimeId, desiredSeats) {
   const showtimeData = await Showtime.findById(showtimeId);
@@ -56,18 +53,11 @@ const createBooking = async (req, res) => {
       totalPrice,
     });
 
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: totalPrice * 100,
-      currency: "egp",
-    });
-
     const payment = await Payment.create({
       booking: booking._id,
       amount: totalPrice,
       method: req.body.method || "card",
       status: "pending",
-      stripePaymentIntentId: paymentIntent.id,
-      stripeClientSecret: paymentIntent.client_secret
     });
 
     booking.payment = payment._id;
@@ -77,7 +67,6 @@ const createBooking = async (req, res) => {
       message: "Booking created. Proceed to payment.",
       booking,
       paymentId: payment._id,
-      clientSecret: paymentIntent.client_secret
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -104,10 +93,7 @@ const deleteBooking = async (req, res) => {
     }
 
     const paymentData = await Payment.findOne({ booking: id });
-    if (paymentData && paymentData.stripePaymentIntentId) {
-      await stripe.refunds.create({
-        payment_intent: paymentData.stripePaymentIntentId
-      });
+    if (paymentData) {
       paymentData.status = "refunded";
       await paymentData.save();
     }
@@ -121,4 +107,23 @@ const deleteBooking = async (req, res) => {
   }
 };
 
-export default { createBooking, deleteBooking };
+const getUserBookings = async (req, res) => {
+  try {
+    const bookings = await Booking.find({ user: req.user.id })
+      .populate({
+        path: "showtime",
+        populate: { path: "movie" }
+      })
+      .populate("payment");
+
+    res.status(200).json({
+      success: true,
+      count: bookings.length,
+      data: bookings,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export default { createBooking, deleteBooking, getUserBookings };
