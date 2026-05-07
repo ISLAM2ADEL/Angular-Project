@@ -9,5 +9,5 @@ import { Component, Input } from '@angular/core';
 export class FeaturedMovie {
   @Input() title!: string;
   @Input() description!: string;
-  @Input() imageUrl!: string;
+  @Input() poster!: string;
 }
