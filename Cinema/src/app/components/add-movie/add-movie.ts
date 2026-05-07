@@ -32,6 +32,7 @@ export class AddMovie {
     poster: new FormControl('', [Validators.required]),
     releaseDate: new FormControl('', Validators.required),
     isNowShowing: new FormControl<'Showing' | 'Upcoming'>('Upcoming', Validators.required),
+    showTimes: new FormControl<string[]>([], Validators.required),
   });
 
   genresOptions = [
@@ -52,6 +53,7 @@ export class AddMovie {
 
   ratingOptions = ['G', 'PG', 'PG-13', 'R', 'NC-17'];
   statusOptions: Array<'Showing' | 'Upcoming'> = ['Showing', 'Upcoming'];
+  showTimesOptions = ['10:00 AM', '01:00 PM', '04:00 PM', '07:00 PM', '10:00 PM'];
 
   constructor(private toaster: ToasterService) {}
 
@@ -73,6 +75,7 @@ export class AddMovie {
       poster: v.poster!,
       releaseDate: v.releaseDate!,
       isNowShowing: v.isNowShowing === 'Showing',
+      showTimes: v.showTimes || [],
     };
 
     this.movieService.create(payload).subscribe({

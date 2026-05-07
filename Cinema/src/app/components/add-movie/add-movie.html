@@ -53,6 +53,10 @@
 
         <app-form-input label="Language" placeholder="English"
           [control]="movieForm.controls.language" errorMsg="language is required" />
+
+        <app-form-input label="Show Times" placeholder="Choose showtimes" iconUrl="/clock.svg"
+          [control]="movieForm.controls.showTimes" errorMsg="show times are required" [isMultiSelect]="true"
+          [options]="showTimesOptions" [isDropShadow]="true" />
       </div>
 
       <div class="form-actions">

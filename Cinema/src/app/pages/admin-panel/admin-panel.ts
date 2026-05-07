@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType, Chart, registerables } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { StatCard } from "../../components/stat-card/stat-card";
@@ -20,6 +20,7 @@ Chart.register(...registerables);
 export class AdminPanel implements OnInit {
   private movieService = inject(MovieService);
   private toaster = inject(ToasterService);
+  private cdr = inject(ChangeDetectorRef);
 
   searchTerm = '';
   showAllMoviesModal = false;
@@ -122,9 +123,11 @@ export class AdminPanel implements OnInit {
         // Apply client-side slice as a fallback to ensure exactly 5 movies are shown
         this.tableMovies = data.slice(0, 5);
         this.isLoadingMovies = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.isLoadingMovies = false;
+        this.cdr.detectChanges();
         this.toaster.error(err?.error?.message || 'Failed to load movies.');
       }
     });
@@ -151,9 +154,11 @@ export class AdminPanel implements OnInit {
           this.hasMoreModalMovies = data.length > this.modalLimit;
         }
         this.isLoadingModal = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.isLoadingModal = false;
+        this.cdr.detectChanges();
         this.toaster.error(err?.error?.message || 'Failed to load all movies.');
       }
     });
@@ -209,8 +214,10 @@ export class AdminPanel implements OnInit {
         if (this.showAllMoviesModal) {
           this.loadModalMovies();
         }
+        this.cdr.detectChanges();
       },
       error: (err) => {
+        this.cdr.detectChanges();
         this.toaster.error(err?.error?.message || 'Failed to delete movie.');
       }
     });

@@ -30,6 +30,7 @@ export class EditMovie {
         poster: data.poster || '',
         releaseDate: this.formatDate(data.releaseDate) || '',
         isNowShowing: data.isNowShowing ? 'Showing' : 'Upcoming',
+        showTimes: Array.isArray(data.showTimes) ? data.showTimes : [],
       });
     }
   }
@@ -51,6 +52,7 @@ export class EditMovie {
     poster: new FormControl('', [Validators.required]),
     releaseDate: new FormControl('', Validators.required),
     isNowShowing: new FormControl<'Showing' | 'Upcoming'>('Upcoming', Validators.required),
+    showTimes: new FormControl<string[]>([], Validators.required),
   });
 
   genresOptions = [
@@ -71,6 +73,7 @@ export class EditMovie {
 
   ratingOptions = ['G', 'PG', 'PG-13', 'R', 'NC-17'];
   statusOptions: Array<'Showing' | 'Upcoming'> = ['Showing', 'Upcoming'];
+  showTimesOptions = ['10:00 AM', '01:00 PM', '04:00 PM', '07:00 PM', '10:00 PM'];
 
   constructor(private toaster: ToasterService) {}
 
@@ -100,6 +103,7 @@ export class EditMovie {
       poster: v.poster!,
       releaseDate: v.releaseDate!,
       isNowShowing: v.isNowShowing === 'Showing',
+      showTimes: v.showTimes || [],
     };
 
     this.movieService.update(this.movieId, payload).subscribe({

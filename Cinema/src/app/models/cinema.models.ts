@@ -9,6 +9,7 @@ export interface Movie {
   poster: string;
   releaseDate: string;
   isNowShowing: boolean;
+  showTimes?: string[];
 }
 
 export interface Hall {
