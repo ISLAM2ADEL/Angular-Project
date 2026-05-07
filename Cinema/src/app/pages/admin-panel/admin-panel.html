@@ -44,7 +44,7 @@
           <tr>
             <td>
               <div class="movie-details">
-                <img [src]="movie.poster" [alt]="movie.title">
+                <img [src]="movie.poster" [alt]="movie.title" loading="lazy">
                 <div>
                   <span class="movie-title">{{ movie.title }}</span>
                   <span class="movie-info">{{ movie.duration }} mins • {{ movie.rating }}</span>
@@ -99,7 +99,7 @@
           <div class="all-movies-grid">
             @for (movie of filteredMovies; track movie._id) {
               <div class="all-movie-card">
-                <img class="all-movie-poster" [src]="movie.poster" [alt]="movie.title">
+                <img class="all-movie-poster" [src]="movie.poster" [alt]="movie.title" loading="lazy">
                 <div class="all-movie-meta">
                   <div class="all-movie-title">{{ movie.title }}</div>
                   <div class="all-movie-sub">{{ movie.duration }} mins • {{ movie.rating }} • {{ movie.language }}</div>

@@ -1,14 +1,4 @@
 import { Routes } from '@angular/router';
-import { Home } from './pages/home/home';
-import { Movies } from './pages/movies/movies';
-import { MovieDetail } from './pages/movie-detail/movie-detail';
-import { Seats } from './pages/seats/seats';
-import { Checkout } from './pages/checkout/checkout';
-import { Signin } from './pages/signin/signin';
-import { Signup } from './pages/signup/signup';
-import { UserProfile } from './pages/user-profile/user-profile';
-import { AdminPanel } from './pages/admin-panel/admin-panel';
-import { NotFound } from './pages/not-found/not-found';
 import { roleGuard } from './guards/role-guard';
 import { authGuard } from './guards/auth-guard';
 import { guestGuard } from './guards/guest-guard';
@@ -21,49 +11,49 @@ export const routes: Routes = [
   },
   {
     path: 'home',
-    component: Home,
+    loadComponent: () => import('./pages/home/home').then(m => m.Home),
   },
   {
     path: 'movies',
-    component: Movies,
+    loadComponent: () => import('./pages/movies/movies').then(m => m.Movies),
   },
   {
     path: 'movie/:movieId',
-    component: MovieDetail,
+    loadComponent: () => import('./pages/movie-detail/movie-detail').then(m => m.MovieDetail),
   },
   {
     path: 'seats/:movieId/:showTimeId',
-    component: Seats,
+    loadComponent: () => import('./pages/seats/seats').then(m => m.Seats),
     canActivate:[authGuard]
   },
   {
     path: 'checkout/:movieId/:showTimeId/:seatId',
-    component: Checkout,
+    loadComponent: () => import('./pages/checkout/checkout').then(m => m.Checkout),
     canActivate:[authGuard]
   },
   {
     path: 'sign-in',
-    component: Signin,
+    loadComponent: () => import('./pages/signin/signin').then(m => m.Signin),
     canActivate: [guestGuard]
   },
   {
     path: 'sign-up',
-    component: Signup,
+    loadComponent: () => import('./pages/signup/signup').then(m => m.Signup),
     canActivate: [guestGuard]
   },
   {
     path: 'profile',
-    component: UserProfile,
+    loadComponent: () => import('./pages/user-profile/user-profile').then(m => m.UserProfile),
     canActivate: [authGuard]
   },
   {
     path: 'admin-panel',
-    component: AdminPanel,
+    loadComponent: () => import('./pages/admin-panel/admin-panel').then(m => m.AdminPanel),
     canActivate: [roleGuard],
     data: { role: 'admin' }
   },
   {
     path: '**',
-    component: NotFound,
+    loadComponent: () => import('./pages/not-found/not-found').then(m => m.NotFound),
   },
 ];
