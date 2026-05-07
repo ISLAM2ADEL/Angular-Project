@@ -1,4 +1,3 @@
-// 1. ضيفي ChangeDetectorRef في الـ import
 import { Component, inject, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -20,9 +19,9 @@ interface ChatMessage {
 export class ChatBot implements OnDestroy {
   isOpen: boolean = false;
   newMessage: string = '';
-  
+
   private chatbotService = inject(ChatbotService);
-  private cdr = inject(ChangeDetectorRef); 
+  private cdr = inject(ChangeDetectorRef);
 
   messages: ChatMessage[] = [
     { text: 'Hello there, how can I help you today sir!', sender: 'bot', timestamp: new Date() }
@@ -55,7 +54,7 @@ export class ChatBot implements OnDestroy {
   sendMessage() {
     if (this.newMessage.trim() === '') return;
 
-    const userText = this.newMessage; 
+    const userText = this.newMessage;
 
     this.messages.push({
       text: userText,
@@ -63,21 +62,21 @@ export class ChatBot implements OnDestroy {
       timestamp: new Date()
     });
 
-    this.newMessage = ''; 
+    this.newMessage = '';
 
     this.chatbotService.sendMessage(userText).subscribe({
       next: (response) => {
         const rawBotText = response.data.reply || response.reply || 'No response';
-        
+
         const cleanText = this.formatMessage(rawBotText);
 
         this.messages.push({
-          text: cleanText, 
+          text: cleanText,
           sender: 'bot',
           timestamp: new Date()
         });
 
-        this.cdr.detectChanges(); 
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Chatbot API Error:', err);
@@ -86,7 +85,7 @@ export class ChatBot implements OnDestroy {
           sender: 'bot',
           timestamp: new Date()
         });
-        this.cdr.detectChanges(); 
+        this.cdr.detectChanges();
       }
     });
   }

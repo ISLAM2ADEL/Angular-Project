@@ -7,7 +7,7 @@
     align-items: center;
     text-align: center;
     margin-top: 50px;
-    color: black;
+    color: var(--text-main);
 
     flex: none;
     order: 0;
@@ -21,7 +21,7 @@
     align-items: center;
     text-align: center;
 
-    color: gray;
+    color: var(--text-muted);
 
     flex: none;
     order: 0;
@@ -34,6 +34,7 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
     justify-items: center;
+    margin-bottom: 30px;
 }
 
 @media (max-width: 1024px) {
@@ -61,8 +62,10 @@
         padding: 0 6px;
     }
 
-    .movies-container {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
+  .movies-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    width: 100%;
+}
 }
