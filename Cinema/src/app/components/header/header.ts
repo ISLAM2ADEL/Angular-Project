@@ -18,7 +18,7 @@ export class Header {
   isMenuOpen = false;
 
   get isUserLoggedIn(): boolean {
-    return !!localStorage.getItem('token'); 
+    return !!localStorage.getItem('token');
   }
 
   get isAdmin(): boolean {
@@ -52,6 +52,7 @@ export class Header {
 
   changeTheme(){
     this.darkTheme.toggleDarkMode();
+    
     this.closeMenu();
   }
  }

@@ -46,9 +46,19 @@
       </button>
 
       @if(isUserLoggedIn) {
+        @if(isAdmin) {
+          <button class="mobile-menu-item" type="button" (click)="navigateTo('/admin-panel')">
+            <span class="mobile-menu-icon" style="-webkit-mask-image:url('magic.svg'); mask-image:url('magic.svg');"></span>
+            <span>Admin Panel</span>
+          </button>
+        }
         <button class="mobile-menu-item" type="button" (click)="navigateTo('/profile')">
           <span class="mobile-menu-icon" style="-webkit-mask-image:url('sign up icon.svg'); mask-image:url('sign up icon.svg');"></span>
           <span>Profile</span>
+        </button>
+        <button class="mobile-menu-item" type="button" (click)="changeTheme()">
+          <span class="mobile-menu-icon" style="-webkit-mask-image:url('theme icon.svg'); mask-image:url('theme icon.svg');"></span>
+          <span>Dark Mode</span>
         </button>
         <button class="mobile-menu-item" type="button" (click)="openCinebot()">
           <span class="mobile-menu-icon" style="-webkit-mask-image:url('assets/icons/robot-01.svg'); mask-image:url('assets/icons/robot-01.svg');"></span>
@@ -59,6 +69,10 @@
           <span>Log out</span>
         </button>
       } @else {
+        <button class="mobile-menu-item" type="button" (click)="changeTheme()">
+          <span class="mobile-menu-icon" style="-webkit-mask-image:url('theme icon.svg'); mask-image:url('theme icon.svg');"></span>
+          <span>Dark Mode</span>
+        </button>
         <button class="mobile-menu-item" type="button" (click)="navigateTo('/sign-up')">
           <span class="mobile-menu-icon" style="-webkit-mask-image:url('sign up icon.svg'); mask-image:url('sign up icon.svg');"></span>
           <span>Sign up</span>

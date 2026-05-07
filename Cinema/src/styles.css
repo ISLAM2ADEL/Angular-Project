@@ -59,7 +59,7 @@
 [data-theme='dark'] {
 
 
-   /* --primary-accent-800: #3B061C;
+  /* --primary-accent-800: #3B061C;
   --primary-accent-700: #551C31;
   --primary-accent-600: #713247;
   --primary-accent: #8D495F;
@@ -75,7 +75,7 @@
   --selected-green: #2D5A27;
   --unavailable-seat: #E5E7EB; */
 
-   --primary-accent-800: #FFD9E2;
+  --primary-accent-800: #FFD9E2;
   --primary-accent-700: #FFB1C7;
   --primary-accent-600: #C87A91;
   --primary-accent: #AA6178;

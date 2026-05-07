@@ -27,8 +27,6 @@
     width: 100%;
     min-height: 63px;
     justify-content: flex-start;
-    font-weight: 700;
-    font-size: 40px;
     line-height: 50px;
     display: flex;
     align-items: center;
@@ -47,8 +45,6 @@
     width: 100%;
     min-height: 63px;
     margin-bottom: 20px;
-    font-weight: 700;
-    font-size: 40px;
     line-height: 50px;
     display: flex;
     align-items: center;
@@ -63,6 +59,7 @@
 }
 
 @media (max-width: 1024px) {
+
     .features-title,
     .upcoming-title,
     .now-showing-title {
@@ -77,6 +74,7 @@
 }
 
 @media (max-width: 768px) {
+
     .features,
     .upcoming,
     .now-showing {
@@ -101,6 +99,7 @@
 }
 
 @media (max-width: 480px) {
+
     .features-title,
     .upcoming-title,
     .now-showing-title {
