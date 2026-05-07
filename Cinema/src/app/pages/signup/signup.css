@@ -90,9 +90,7 @@
   font-size: 14px;
   color: var(--text-main);
   background-color: var(--bg-card);
-  box-shadow:
-    inset 3px 3px 8px rgba(0, 0, 0, 0.1),
-    inset -3px -3px 8px rgba(255, 255, 255, 0.85);
+  box-shadow: var();
   transition: all 0.3s ease;
   box-sizing: border-box;
   outline: none;
@@ -106,7 +104,7 @@
   box-shadow:
     inset 2px 2px 6px rgba(0, 0, 0, 0.13),
     inset -2px -2px 6px rgba(255, 255, 255, 0.9),
-    0 0 0 2px rgba(59, 6, 28, 0.2); 
+    0 0 0 2px rgba(59, 6, 28, 0.2);
 }
 
 .form-group input.is-invalid {
@@ -149,7 +147,7 @@
 }
 
 .eye-btn:hover {
-  color: var(--primary-accent-800); 
+  color: var(--primary-accent-800);
 }
 
 .password-container input::-ms-reveal,
@@ -158,11 +156,11 @@
 }
 
 .my-primary-button {
-  background-color: var(--btn-primary-bg); 
+  background-color: var(--btn-primary-bg);
   border-radius: var(--btn-radius);
   box-shadow: var(--btn-primary-shadow);
   transition: var(--btn-transition);
-  color: white; 
+  color: white;
   padding: 12px 24px;
   border: none;
   cursor: pointer;

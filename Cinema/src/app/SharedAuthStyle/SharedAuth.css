@@ -1,207 +1,330 @@
 .auth-container.container {
-  width: 75% !important;
-  max-width: 1400px !important;
+  width: 100%;
   margin: 0 auto;
-}
-.auth-container.container {
-  width: 100% !important;
-  max-width: none !important;
-  margin: 0 auto;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 200px);
 }
 
 .auth-card {
   position: relative;
   width: 100%;
-  max-width: none;
-  margin: 0 auto;
-  padding: 40px 30px;
-  box-sizing: border-box;
-}
-.auth-form{
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
+  max-width: 1100px;
+  background-color: var(--bg-card);
+  border-radius: 48px;
+  padding: 4rem 3.5rem;
+  box-shadow: var(--shadow-deep);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
 .sparkle-icon {
   position: absolute;
-  top: 22px;
-  right: 28px;
-  font-size: 28px;
-  color: var(--primary-accent-800);
-  line-height: 1;
+  top: 35px;
+  right: 40px;
+}
+
+.sparkle-icon .mask-icon {
+  width: 60px;
+  height: 60px;
+  background-color: var(--primary-accent-800);
 }
 
 .page-title {
   text-align: center;
   color: var(--primary-accent-800);
-  margin: 0 0 30px 0;
+  margin-bottom: 3rem;
+  font-size: 3.5rem;
 }
 
 .profile-wrapper {
   display: flex;
   justify-content: center;
-  margin-bottom: 35px;
+  margin-bottom: 3rem;
 }
 
 .profile-avatar-container {
   position: relative;
-  width: 145px;
-  height: 145px;
+  width: 180px;
+  height: 180px;
 }
 
 .profile-circle {
-  width: 145px;
-  height: 145px;
-  background-color: var(--bg-card);
+  width: 180px;
+  height: 180px;
+  background-color: var(--bg-color);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 72px;
-  color: var(--primary-accent-800);
-  box-shadow:
-    inset 5px 5px 14px rgba(0, 0, 0, 0.1),
-    inset -5px -5px 14px rgba(255, 255, 255, 0.9);
+  box-shadow: var(--inner-shadow);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.profile-circle .mask-icon {
+  width: 85px;
+  height: 85px;
+  background-color: var(--primary-accent-800);
+  opacity: 0.7;
 }
 
 .edit-btn {
   position: absolute;
-  bottom: 4px;
-  right: 4px;
-  width: 34px;
-  height: 34px;
+  bottom: 12px;
+  right: 12px;
+  width: 45px;
+  height: 45px;
   background-color: var(--primary-accent-800);
-  border: 2px solid var(--bg-card);
+  border: 4px solid var(--bg-card);
   border-radius: 50%;
-  color: white;
-  font-size: 13px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.edit-btn .mask-icon {
+  width: 18px;
+  height: 18px;
+  background-color: white;
 }
 
 .edit-btn:hover {
   background-color: var(--primary-accent-600);
+  transform: scale(1.1);
+}
+
+/* Mask Icon Utility */
+.mask-icon {
+  display: inline-block;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background-color: currentColor;
 }
 
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 2rem;
 }
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 28px;
+  gap: 3rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .form-group label {
-  display: block;
-  font-size: 14px;
-  margin-bottom: 8px;
-  margin-left: 12px;
+  font-size: 1rem;
+  font-weight: 600;
   color: var(--text-main);
+  margin-left: 1.2rem;
 }
 
 .form-group input {
   width: 100%;
-  padding: 14px 22px;
-  border: none;
-  border-radius: 30px;
-  font-size: 14px;
+  padding: 1.25rem 2rem;
+  border: 1px solid var(--border-color);
+  border-radius: 60px;
+  font-size: 1.1rem;
   color: var(--text-main);
-  background-color: var(--bg-card);
-  box-shadow:
-    inset 3px 3px 8px rgba(0, 0, 0, 0.1),
-    inset -3px -3px 8px rgba(255, 255, 255, 0.85);
+  background-color: var(--bg-color);
+  box-shadow: var(--inner-shadow);
   transition: all 0.3s ease;
-  box-sizing: border-box;
   outline: none;
 }
 
 .form-group input::placeholder {
   color: var(--text-muted);
+  opacity: 0.6;
 }
 
 .form-group input:focus {
-  box-shadow:
-    inset 2px 2px 6px rgba(0, 0, 0, 0.13),
-    inset -2px -2px 6px rgba(255, 255, 255, 0.9),
-    0 0 0 2px rgba(59, 6, 28, 0.2); 
+  border-color: var(--primary-accent-400);
+  box-shadow: var(--inner-shadow-selected);
+}
+
+[data-theme='dark'] .form-group input:focus {
+  border-color: var(--primary-accent-300);
+  box-shadow: var(--inner-shadow-selected);
 }
 
 .form-group input.is-invalid {
-  box-shadow:
-    inset 3px 3px 8px rgba(180, 30, 60, 0.12),
-    inset -3px -3px 8px rgba(255, 255, 255, 0.85),
-    0 0 0 1px rgba(180, 30, 60, 0.3);
+  border-color: #ffb1c7;
 }
 
 .error-text {
-  color: #b52848;
-  font-size: 12px;
-  margin-top: 7px;
-  display: block;
+  color: #c44558;
+  font-size: 0.9rem;
+  font-weight: 600;
   text-align: center;
-}
-
-.submit-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-top: 12px;
+  margin-top: 0.5rem;
 }
 
 .password-container {
   position: relative;
-  display: flex;
-  align-items: center;
+  width: 100%;
 }
 
 .eye-btn {
   position: absolute;
-  right: 15px;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
   background: transparent;
   border: none;
   color: var(--text-muted);
-  font-size: 18px;
+  font-size: 1.4rem;
   cursor: pointer;
-  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: color 0.3s ease;
 }
 
 .eye-btn:hover {
-  color: var(--primary-accent-800); 
+  color: var(--primary-accent-800);
 }
 
-.password-container input::-ms-reveal,
-.password-container input::-ms-clear {
-  display: none;
+.submit-wrapper {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
 }
 
 .my-primary-button {
-  background-color: var(--btn-primary-bg); 
-  border-radius: var(--btn-radius);
-  box-shadow: var(--btn-primary-shadow);
-  transition: var(--btn-transition);
-  color: white; 
-  padding: 12px 24px;
+  width: fit-content;
+  min-width: 300px;
+  background-color: var(--btn-primary-bg);
+  border-radius: 60px;
+  color: white;
+  padding: 1.25rem 3.5rem;
   border: none;
   cursor: pointer;
+  font-size: 1.25rem;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 12px 24px rgba(59, 6, 28, 0.3);
+  transition: all 0.3s ease;
+}
+
+.my-primary-button img {
+  width: 24px;
+  height: 24px;
 }
 
 .my-primary-button:hover:not(:disabled) {
-  box-shadow: var(--btn-primary-shadow-hover);
-  transform: scale(var(--btn-hover-scale));
+  transform: translateY(-3px);
+  box-shadow: 0 18px 36px rgba(59, 6, 28, 0.4);
+  background-color: var(--primary-accent-700);
 }
 
 .my-primary-button:disabled {
   background-color: var(--text-muted);
   cursor: not-allowed;
-  opacity: 0.7;
+  opacity: 0.6;
 }
+
+.auth-footer {
+  text-align: center;
+  margin-top: 2.5rem;
+  font-size: 1.1rem;
+}
+
+.auth-footer span {
+  color: var(--text-muted);
+}
+
+.auth-footer a {
+  color: var(--primary-accent-800);
+  text-decoration: none;
+  font-weight: 700;
+  margin-left: 0.75rem;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
+
+
+@media (max-width: 1024px) {
+  .auth-card {
+    max-width: 850px;
+    padding: 3.5rem 2.5rem;
+  }
+
+  .form-row {
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .auth-card {
+    max-width: 550px;
+    padding: 3rem 1.5rem;
+    border-radius: 40px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .page-title {
+    font-size: 2.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .profile-avatar-container {
+    width: 150px;
+    height: 150px;
+  }
+
+  .profile-circle {
+    width: 150px;
+    height: 150px;
+  }
+
+  .my-primary-button {
+    width: 100%;
+    min-width: auto;
+    padding: 1.1rem;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 2.5rem 1.25rem;
+    border-radius: 32px;
+  }
+
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .sparkle-icon img {
+    width: 45px;
+    height: 45px;
+  }
+}
+
