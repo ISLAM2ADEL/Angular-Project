@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
   styleUrl: './movie-card.css',
 })
 export class MovieCard {
-  @Input() imageUrl!: string;
+  @Input() poster!: string;
   @Input() title!: string;
   @Input() rating!: string;
   @Input() metadata!: string;

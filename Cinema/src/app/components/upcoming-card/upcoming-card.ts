@@ -7,7 +7,7 @@ import { Component, Input, input } from '@angular/core';
   styleUrl: './upcoming-card.css',
 })
 export class UpcomingCard {
-  @Input() imageUrl!: string;
+  @Input() poster!: string;
   @Input() releaseDate!: string;
   @Input() title!: string;
   @Input() description!: string;

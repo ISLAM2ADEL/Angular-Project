@@ -1,15 +1,11 @@
-<app-featured-movie [imageUrl]="'spiderman.jpg'" [title]="'Spider Man'"
-    [description]="'Experience the epic journey across space and time\nin our signature IMAX 4K Laser auditorium with\nDolby Atmos sound.'"></app-featured-movie>
+<app-featured-movie [poster]="featuredMovie()?.poster??''" [title]="featuredMovie()?.title??''"
+    [description]="featuredMovie()?.description??''"></app-featured-movie>
 <h1 class="now-showing-title">Now Showing</h1>
 <div class="now-showing">
-    <app-movie-card [imageUrl]="'spiderman.jpg'" [title]="'Spider man'" [rating]="'7.6'"
-        [metadata]="'Action — 2h 10m'"></app-movie-card>
-    <app-movie-card [imageUrl]="'spiderman.jpg'" [title]="'Spider man'" [rating]="'7.6'"
-        [metadata]="'Action — 2h 10m'"></app-movie-card>
-    <app-movie-card [imageUrl]="'spiderman.jpg'" [title]="'Spider man'" [rating]="'7.6'"
-        [metadata]="'Action — 2h 10m'"></app-movie-card>
-    <app-movie-card [imageUrl]="'spiderman.jpg'" [title]="'Spider man'" [rating]="'7.6'"
-        [metadata]="'Action — 2h 10m'"></app-movie-card>
+    @for (movie of nowShowingMovies(); track movie._id) {
+    <app-movie-card [poster]="movie.poster" [title]="movie.title" [rating]="movie.rating"
+        [metadata]="`${movie.genre.join(', ')} — ${movie.duration}`"></app-movie-card>
+    }
 </div>
 <h1 class="features-title">Ultra-Luxe Experiences</h1>
 <div class="features">
@@ -23,10 +19,8 @@
 
 <h1 class="upcoming-title">Upcoming Blockbusters</h1>
 <div class="upcoming">
-    <app-upcoming-card [imageUrl]="'spiderman.jpg'" [releaseDate]="'RELEASING DEC 12'" [title]="'Spider man'"
-        [description]="'In a world where memories are harvested like crops, one architect of dreams must decide if the emerald legacy of the past is worth the sacrifice of a digital future. A visually breathtaking journey into the soul of tomorrow.'"></app-upcoming-card>
-    <app-upcoming-card [imageUrl]="'spiderman.jpg'" [releaseDate]="'RELEASING DEC 12'" [title]="'Spider man'"
-        [description]="'In a world where memories are harvested like crops, one architect of dreams must decide if the emerald legacy of the past is worth the sacrifice of a digital future. A visually breathtaking journey into the soul of tomorrow.'"></app-upcoming-card>
-    <app-upcoming-card [imageUrl]="'spiderman.jpg'" [releaseDate]="'RELEASING DEC 12'" [title]="'Spider man'"
-        [description]="'In a world where memories are harvested like crops, one architect of dreams must decide if the emerald legacy of the past is worth the sacrifice of a digital future. A visually breathtaking journey into the soul of tomorrow.'"></app-upcoming-card>
+    @for (movie of upcomingMovies(); track movie._id) {
+    <app-upcoming-card [poster]="movie.poster" [releaseDate]="(movie.releaseDate | date:'yyyy-MM-dd')??''"
+        [title]="movie.title" [description]="movie.description"></app-upcoming-card>
+    }
 </div>
