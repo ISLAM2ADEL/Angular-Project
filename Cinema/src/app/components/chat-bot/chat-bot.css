@@ -31,6 +31,27 @@
   height: 30px;
 }
 
+@media (max-width: 768px) {
+  .chat-fab {
+    display: none;
+  }
+
+  .chatbot-wrapper.fullscreen-mobile {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    right: 0;
+    bottom: 0;
+  }
+
+  .chatbot-wrapper.fullscreen-mobile .chat-window {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+}
+
 
 .chat-window {
   width: 360px;

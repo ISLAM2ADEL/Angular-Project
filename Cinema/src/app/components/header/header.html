@@ -4,6 +4,11 @@
       <img src="logo icon.svg" class="icon icon-themed">
       <span class="brand sharp-font-boldest">CinePremium</span>
     </div>
+    <button class="menu-toggle mobile-only" type="button" (click)="toggleMenu()" aria-label="Toggle menu">
+      <span class="menu-toggle-line"></span>
+      <span class="menu-toggle-line"></span>
+      <span class="menu-toggle-line"></span>
+    </button>
     <nav class="nav">
       <app-button routerLink="/home" label="Home" iconPath="home icon.svg" variant="secondary"></app-button>
       <app-button routerLink="/movies" label="Movies" iconPath="movies icon.svg" variant="secondary"></app-button>
@@ -22,4 +27,47 @@
       }
     </div>
   </div>
+
+  @if (isMenuOpen) {
+    <div class="mobile-menu-backdrop mobile-only" (click)="closeMenu()"></div>
+    <div class="mobile-menu mobile-only">
+      <button class="mobile-menu-close" type="button" (click)="closeMenu()" aria-label="Close menu">
+        <img src="assets/icons/cancel-circle.svg" alt="Close menu" class="mobile-close-icon icon-themed" />
+      </button>
+
+      <button class="mobile-menu-item" type="button" (click)="navigateTo('/home')">
+        <span class="mobile-menu-icon" style="-webkit-mask-image:url('home icon.svg'); mask-image:url('home icon.svg');"></span>
+        <span>Home</span>
+      </button>
+
+      <button class="mobile-menu-item" type="button" (click)="navigateTo('/movies')">
+        <span class="mobile-menu-icon" style="-webkit-mask-image:url('movies icon.svg'); mask-image:url('movies icon.svg');"></span>
+        <span>Movies</span>
+      </button>
+
+      @if(isUserLoggedIn) {
+        <button class="mobile-menu-item" type="button" (click)="navigateTo('/profile')">
+          <span class="mobile-menu-icon" style="-webkit-mask-image:url('sign up icon.svg'); mask-image:url('sign up icon.svg');"></span>
+          <span>Profile</span>
+        </button>
+        <button class="mobile-menu-item" type="button" (click)="openCinebot()">
+          <span class="mobile-menu-icon" style="-webkit-mask-image:url('assets/icons/robot-01.svg'); mask-image:url('assets/icons/robot-01.svg');"></span>
+          <span>Cinebot</span>
+        </button>
+        <button class="mobile-menu-item" type="button" (click)="logOut()">
+          <span class="mobile-menu-icon" style="-webkit-mask-image:url('logout-02.svg'); mask-image:url('logout-02.svg');"></span>
+          <span>Log out</span>
+        </button>
+      } @else {
+        <button class="mobile-menu-item" type="button" (click)="navigateTo('/sign-up')">
+          <span class="mobile-menu-icon" style="-webkit-mask-image:url('sign up icon.svg'); mask-image:url('sign up icon.svg');"></span>
+          <span>Sign up</span>
+        </button>
+        <button class="mobile-menu-item" type="button" (click)="navigateTo('/sign-in')">
+          <span class="mobile-menu-icon" style="-webkit-mask-image:url('log in icon.svg'); mask-image:url('log in icon.svg');"></span>
+          <span>Login</span>
+        </button>
+      }
+    </div>
+  }
 </header>

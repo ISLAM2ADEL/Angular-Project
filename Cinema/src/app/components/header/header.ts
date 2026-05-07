@@ -15,6 +15,8 @@ export class Header {
 
   protected readonly title = signal('Cinema');
   private router=inject(Router);
+  isMenuOpen = false;
+
   get isUserLoggedIn(): boolean {
     return !!localStorage.getItem('token'); 
   }
@@ -26,10 +28,30 @@ export class Header {
 
   logOut(){
     localStorage.removeItem('token');
+    this.isMenuOpen = false;
     this.router.navigate(['/sign-in']);
   }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMenu() {
+    this.isMenuOpen = false;
+  }
+
+  navigateTo(path: string) {
+    this.closeMenu();
+    this.router.navigate([path]);
+  }
+
+  openCinebot() {
+    this.closeMenu();
+    window.dispatchEvent(new CustomEvent('open-cinebot'));
+  }
+
   changeTheme(){
     this.darkTheme.toggleDarkMode();
-    console.log("hello ");
+    this.closeMenu();
   }
  }

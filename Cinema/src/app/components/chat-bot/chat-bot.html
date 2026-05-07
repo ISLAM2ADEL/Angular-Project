@@ -1,4 +1,4 @@
-<div class="chatbot-wrapper">
+<div class="chatbot-wrapper" [class.fullscreen-mobile]="isOpen">
   @if (!isOpen) {
     <button class="chat-fab" (click)="toggleChat()">
       <img src="assets/icons/chat.svg" alt="Open Chat" class="icon-themed" />

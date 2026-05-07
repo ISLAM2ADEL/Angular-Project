@@ -3,7 +3,8 @@
 }
 
 .card-container {
-    width: 320px;
+    width: 100%;
+    max-width: 320px;
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: 32px;
@@ -94,4 +95,10 @@
 .book-btn:hover {
     background: var(--primary-accent-100);
     transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .card-container {
+        margin-inline: auto;
+    }
 }
