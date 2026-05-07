@@ -3,7 +3,7 @@
   <p>Manage your cinema operations and view real-<br>
     time performance</p>
   <div class="label">
-    <img src="/calendar2.svg" alt="calendar icon"> oct 24, 2024
+    <img src="/calendar2.svg" alt="calendar icon" class="icon-themed"> oct 24, 2024
   </div>
 </section>
 
@@ -18,12 +18,13 @@
   <div class="section-header">
     <h2>Manage Movies</h2>
     <div class="search-bar">
-      <img src="/search.svg" alt="search">
-      <input type="text" placeholder="Search movies...">
+      <img src="/search.svg" alt="search" class="icon-themed">
+      <input type="text" placeholder="Search movies..." (input)="onSearch($any($event.target).value)">
     </div>
   </div>
 
-  <table class="movies-table">
+  <div class="movies-table-wrapper">
+    <table class="movies-table">
     <thead>
       <tr>
         <th>Movie Details</th>
@@ -34,40 +35,114 @@
       </tr>
     </thead>
     <tbody>
-      @for (movie of movies; track $index) {
-      <tr>
-        <td>
-          <div class="movie-details">
-            <img [src]="movie.thumbnail" [alt]="movie.title">
-            <div>
-              <span class="movie-title">{{ movie.title }}</span>
-              <span class="movie-info">{{ movie.duration }} • {{ movie.rating }}</span>
-            </div>
-          </div>
-        </td>
-        <td><span class="genre-tag">{{ movie.genre }}</span></td>
-        <td>{{ movie.releaseDate }}</td>
-        <td>
-          <span class="status-indicator" [class.showing]="movie.status === 'Showing'"
-            [class.upcoming]="movie.status === 'Upcoming'">
-            {{ movie.status }}
-          </span>
-        </td>
-        <td>
-          <div class="actions">
-            <button class="action-btn"><img src="/edit.svg" alt="edit"></button>
-            <button class="action-btn"><img src="/delete.svg" alt="delete"></button>
-          </div>
-        </td>
-      </tr>
+      @if (isLoadingMovies && tableMovies.length === 0) {
+        <tr>
+          <td colspan="5" class="release-date">Loading movies...</td>
+        </tr>
+      } @else {
+        @for (movie of tableMovies; track movie._id) {
+          <tr>
+            <td>
+              <div class="movie-details">
+                <img [src]="movie.poster" [alt]="movie.title" loading="lazy">
+                <div>
+                  <span class="movie-title">{{ movie.title }}</span>
+                  <span class="movie-info">{{ movie.duration }} mins • {{ movie.rating }}</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="genre-tags-container">
+                @for (g of movie.genre; track g) {
+                  <span class="genre-tag">{{ g }}</span>
+                }
+              </div>
+            </td>
+            <td class="release-date">{{ movie.releaseDate | date: 'MMM d, y' }}</td>
+            <td>
+              <span class="status-indicator" [class.showing]="movie.isNowShowing"
+                [class.upcoming]="!movie.isNowShowing">
+                {{ movie.isNowShowing ? 'Showing' : 'Upcoming' }}
+              </span>
+            </td>
+            <td>
+              <div class="actions">
+                <button class="action-btn" (click)="openEditMovie(movie)"><img src="/edit.svg" alt="edit" class="icon-themed"></button>
+                <button class="action-btn" (click)="deleteMovie(movie)"><img src="/delete.svg" alt="delete" class="icon-themed"></button>
+              </div>
+            </td>
+          </tr>
+        }
       }
     </tbody>
-  </table>
+    </table>
+  </div>
   <div class="table-footer">
-    <button type="button">View All Movies</button>
-    <button type="button">Add movie</button>
+    <button type="button" (click)="openAllMovies()">View All Movies</button>
+    <button type="button" (click)="openAddMovie()">Add movie</button>
   </div>
 </section>
+
+@if (showAddMovieModal) {
+<app-add-movie (saved)="loadMovies()" (close)="closeAddMovie()" />
+}
+@if (showEditMovieModal) {
+<app-edit-movie [movieData]="selectedMovie" (saved)="loadMovies()" (close)="closeEditMovie()" />
+}
+
+@if (showAllMoviesModal) {
+  <div class="admin-modal-overlay" (click)="closeAllMovies()">
+    <div class="admin-modal" (click)="$event.stopPropagation()">
+      <div class="admin-modal-header">
+        <h3>All Movies</h3>
+        <button type="button" class="admin-modal-close" (click)="closeAllMovies()">×</button>
+      </div>
+
+      <div class="admin-modal-body">
+        @if (isLoadingModal && modalMovies.length === 0) {
+          <div class="admin-empty">Loading movies...</div>
+        } @else if (modalMovies.length === 0) {
+          <div class="admin-empty">No movies match your search.</div>
+        } @else {
+          <div class="all-movies-grid">
+            @for (movie of modalMovies; track movie._id) {
+              <div class="all-movie-card">
+                <img class="all-movie-poster" [src]="movie.poster" [alt]="movie.title" loading="lazy">
+                <div class="all-movie-meta">
+                  <div class="all-movie-title">{{ movie.title }}</div>
+                  <div class="all-movie-sub">{{ movie.duration }} mins • {{ movie.rating }} • {{ movie.language }}</div>
+                  <div class="all-movie-genre">
+                    <div class="genre-tags-container">
+                      @for (g of movie.genre; track g) {
+                        <span class="genre-tag">{{ g }}</span>
+                      }
+                    </div>
+                  </div>
+                </div>
+                <div class="all-movie-actions">
+                  <button class="action-btn" type="button" (click)="openEditMovie(movie); closeAllMovies()">
+                    <img src="/edit.svg" alt="edit" class="icon-themed">
+                  </button>
+                  <button class="action-btn" type="button" (click)="deleteMovie(movie)">
+                    <img src="/delete.svg" alt="delete" class="icon-themed">
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+
+          @if (hasMoreModalMovies) {
+            <div class="load-more-container">
+              <button type="button" class="load-more-btn" (click)="loadMoreModalMovies()" [disabled]="isLoadingModal">
+                {{ isLoadingModal ? 'Loading more...' : 'Load More' }}
+              </button>
+            </div>
+          }
+        }
+      </div>
+    </div>
+  </div>
+}
 
 <section class="popular-movies-section">
   <h2>Popular Movies</h2>

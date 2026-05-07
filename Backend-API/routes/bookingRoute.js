@@ -47,6 +47,24 @@ router.post("/", protect, bookingController.createBooking);
 
 /**
  * @swagger
+ * /api/v1/bookings/my-bookings:
+ *   get:
+ *     summary: Get logged-in user's bookings
+ *     tags: [Bookings]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: User's bookings retrieved successfully
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: server error
+ */
+router.get("/my-bookings", protect, bookingController.getUserBookings);
+
+/**
+ * @swagger
  * /api/v1/bookings/{id}:
  *   delete:
  *     summary: cancel a booking and refund

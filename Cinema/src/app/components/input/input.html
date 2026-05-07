@@ -1,1 +1,39 @@
-<p>input works!</p>
+@if (control) {
+  <div class="form-group" [class.full-width]="fullWidth">
+    <label [for]="uniqueId">{{ label }}</label>
+    <div class="input-wrapper" [class.textarea]="isTextarea" [class.select]="isSelect || isMultiSelect"
+      [class.drop-shadow]="isDropShadow" (click)="(isSelect || isMultiSelect) ? toggleDropdown() : openPicker()">
+      
+      @if (isTextarea) {
+        <textarea [id]="uniqueId" [placeholder]="placeholder" [formControl]="$any(control)"></textarea>
+      } @else if (isSelect || isMultiSelect) {
+        <div class="display-value" [class.placeholder]="!control.value || (isMultiSelect && control.value?.length === 0)">
+          {{ getDisplayValue() }}
+        </div>
+        <div class="chevron-arrow"></div>
+        
+        @if (showDropdown) {
+          <div class="dropdown-menu" (click)="$event.stopPropagation()">
+            @for (option of options; track option) {
+              <div class="dropdown-item" [class.selected]="isSelected(option)" (click)="toggleOption(option)">
+                @if (isMultiSelect) {
+                  <div class="checkbox" [class.checked]="isSelected(option)"></div>
+                }
+                {{ option }}
+              </div>
+            }
+          </div>
+        }
+      } @else {
+        <input #nativeInput [id]="uniqueId" [type]="type" [placeholder]="placeholder" [formControl]="$any(control)">
+        @if (iconUrl && type !== 'date') {
+          <img [src]="iconUrl" [alt]="name" class="icon-right">
+        }
+      }
+    </div>
+
+    @if (control.invalid && control.touched) {
+      <span class="error-msg">{{ errorMsg }}</span>
+    }
+  </div>
+}

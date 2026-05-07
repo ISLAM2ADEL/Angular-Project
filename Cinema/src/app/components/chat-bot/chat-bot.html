@@ -1,7 +1,7 @@
-<div class="chatbot-wrapper">
+<div class="chatbot-wrapper" [class.fullscreen-mobile]="isOpen">
   @if (!isOpen) {
     <button class="chat-fab" (click)="toggleChat()">
-      <img src="assets/icons/chat.svg" alt="Open Chat" />
+      <img src="assets/icons/chat.svg" alt="Open Chat" class="icon-themed" />
     </button>
   }
 
@@ -13,12 +13,12 @@
           <h2>cinebot</h2>
         </div>
         <button class="close-btn" (click)="toggleChat()">
-          <img src="assets/icons/cancel-circle.svg" alt="Close" />
+          <img src="assets/icons/cancel-circle.svg" alt="Close" class="icon-themed" />
         </button>
       </div>
 
       <div class="chat-messages">
-        <img class="bg-ufo" src="assets/icons/spaceship.svg" alt="" />
+        <img class="bg-ufo icon-themed" src="assets/icons/spaceship.svg" alt="" />
 
         @for (msg of messages; track msg.timestamp) {
           <div class="message-wrapper" [class.is-user]="msg.sender === 'user'">
@@ -38,7 +38,7 @@
             (keyup.enter)="sendMessage()"
           />
           <button class="send-btn" (click)="sendMessage()">
-            <img src="assets/icons/Send.svg" alt="Send" />
+            <img src="assets/icons/Send.svg" alt="Send" class="icon-themed" />
           </button>
         </div>
       </div>

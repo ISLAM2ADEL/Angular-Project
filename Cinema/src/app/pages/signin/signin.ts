@@ -41,8 +41,12 @@ export class Signin {
             confirmButtonColor: '#3b1e2a',
           });
           localStorage.setItem('token', response.token); 
-          
-          this.router.navigate(['/home']); 
+          if (response?.data?.role) {
+            localStorage.setItem('role', response.data.role);
+          }
+
+          const role = String(response?.data?.role || '').toLowerCase();
+          this.router.navigate([role === 'admin' ? '/admin-panel' : '/home']);
         },
         error: (err) => {
           console.error('Login Error', err);

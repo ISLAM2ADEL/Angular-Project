@@ -1,5 +1,4 @@
 .movie-container {
-  width: 92%;
   max-width: 28rem;
   background-color: var(--bg-color);
   padding: 1.25rem;
@@ -7,20 +6,17 @@
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  margin: 0 auto;
+  margin: var( --sections-margin) auto;
+  border-radius: var(--main-border-radius);
 }
 
 .movie-poster {
-  width: 70%;
-  aspect-ratio: 2 / 3;
-  object-fit: cover;
-  border: 0.5rem solid white;
+  width: 90%;
+  height: auto;
+  object-fit: contain;
+  border: 0.5rem solid var(--bg-color);
   border-radius: 2.5rem;
-  box-shadow:
-    -6px -6px 14px rgba(0, 0, 0, 0.08),
-    6px 6px 14px rgba(0, 0, 0, 0.08);
 }
-
 .movie-status {
   display: flex;
   flex-direction: column;
@@ -47,7 +43,7 @@
 }
 
 .genre {
-  background-color: white;
+  background-color: var(--bg-color);
   color: var(--text-main);
   padding: 0.5rem 1.5rem;
   border-radius: 3.125rem;
@@ -56,9 +52,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow:
-    4px 4px 10px rgba(0, 0, 0, 0.08),
-    -4px -4px 10px rgba(255, 255, 255, 0.9);
+  box-shadow: var( --btn-shadow)
 }
 
 .meta-badges {
@@ -69,7 +63,7 @@
 
 .duration,
 .rating {
-  background-color: white;
+  background-color: var(--bg-color);
   color: var(--text-main);
   padding: 0.5rem 1.25rem;
   border-radius: 3.125rem;
@@ -78,29 +72,25 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow:
-    4px 4px 10px rgba(0, 0, 0, 0.08),
-    -4px -4px 10px rgba(255, 255, 255, 0.9);
+  box-shadow: var( --btn-shadow)
 }
 
 .description-card {
-  background: #f0f0f080;
+  background: var(--bg-card);
   border-radius: 2rem;
   padding: 1.75rem 1.5rem;
   text-align: center;
   line-height: 1.6;
-  color: #414940;
-  width: 90%;
+  color: var(--text-main);
+  width: 100%;
   border: none;
-  box-shadow:
-    inset 8px 8px 16px rgba(0, 0, 0, 0.08),
-    inset -6px -6px 12px rgba(255, 255, 255, 0.9);
+  box-shadow: var(--neumorphic-inner);
 }
 
 .description-card p {
   line-height: 1.75;
   margin: 0;
-  color: #414940;
+  color: var(--text-main);
   font-weight: 400;
   font-size: 0.875rem;
 }
@@ -113,30 +103,6 @@
   width: 100%;
 }
 
-.btn-primary {
-  background-color: var(--primary-accent);
-  color: white;
-  border: none;
-  padding: 0.875rem 2.5rem;
-  border-radius: 3.125rem;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  width: 80%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  box-shadow:
-    6px 6px 14px rgba(141, 73, 95, 0.25),
-    -4px -4px 10px rgba(255, 255, 255, 0.6);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.btn-primary:active {
-  transform: scale(0.97);
-  box-shadow: var(--inner-shadow);
-}
 
 .btn-primary img {
   width: 1.25rem;
@@ -151,32 +117,7 @@
   justify-content: center;
 }
 
-.btn-icon {
-  background: white;
-  border: none;
-  width: 2.875rem;
-  height: 2.875rem;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  box-shadow:
-    4px 4px 10px rgba(0, 0, 0, 0.08),
-    -4px -4px 10px rgba(255, 255, 255, 0.9);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
 
-.btn-icon:active {
-  transform: scale(0.95);
-  box-shadow: var(--inner-shadow);
-}
-
-.btn-icon img {
-  width: 1.25rem;
-  height: 1.25rem;
-}
 
 .showtime-section {
   width: 100%;
@@ -192,7 +133,7 @@
 
 .section-header h1 {
   font-size: 1.25rem;
-  color: #552d3a;
+  color: var(--primary-accent-700);
 }
 
 .header-tools {
@@ -201,14 +142,13 @@
 }
 
 .header-icon-btn {
-  background: white;
+  background: var(--bg-color);
+  color: var(--text-main);
   border: none;
   width: 2.625rem;
   height: 2.625rem;
   border-radius: 50%;
-  box-shadow:
-    4px 4px 10px rgba(0, 0, 0, 0.08),
-    -4px -4px 10px rgba(255, 255, 255, 0.9);
+  box-shadow: var(--neumorphic-shadow);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -217,15 +157,6 @@
   padding: 0;
 }
 
-.header-icon-btn:active {
-  transform: scale(0.95);
-  box-shadow: var(--inner-shadow);
-}
-
-.header-icon-btn img {
-  width: 1.125rem;
-  height: 1.125rem;
-}
 
 .date-row {
   display: grid;
@@ -242,13 +173,12 @@
   justify-content: center;
   padding: 0.75rem;
   border-radius: 50%;
-  background: white;
+  background: var(--bg-color);
+  color: var(--text-main);
   cursor: pointer;
   width: 4.5rem;
   height: 4.5rem;
-  box-shadow:
-    4px 4px 10px rgba(0, 0, 0, 0.08),
-    -4px -4px 10px rgba(255, 255, 255, 0.9);
+  box-shadow: var(--neumorphic-shadow);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -280,12 +210,10 @@
 }
 
 .category-card {
-  background: white;
+  background: var(--bg-color);
   padding: 1.5rem;
   border-radius: 1.75rem;
-  box-shadow:
-    6px 6px 14px rgba(0, 0, 0, 0.08),
-    -4px -4px 10px rgba(255, 255, 255, 0.9);
+  box-shadow: var(--neumorphic-shadow-large);
 }
 
 .cat-title {
@@ -309,7 +237,8 @@
 }
 
 .time-chip {
-  background: white;
+  background: var(--bg-color);
+  color: var(--text-main);
   width: 80%;
   max-width: 10rem;
   border: none;
@@ -318,9 +247,7 @@
   font-weight: 600;
   font-size: 0.875rem;
   cursor: pointer;
-  box-shadow:
-    4px 4px 10px rgba(0, 0, 0, 0.08),
-    -4px -4px 10px rgba(255, 255, 255, 0.9);
+  box-shadow: var(--neumorphic-shadow);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -347,9 +274,7 @@
   font-weight: 600;
   margin-top: 1rem;
   cursor: pointer;
-  box-shadow:
-    6px 6px 14px rgba(141, 73, 95, 0.25),
-    -4px -4px 10px rgba(255, 255, 255, 0.6);
+  box-shadow: var(--btn-confirm-shadow);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -368,11 +293,9 @@
   .movie-poster {
     width: 100%;
     aspect-ratio: 21 / 9;
-    border: 1rem solid white;
+    border: 1rem solid  var(--bg-color);
     border-radius: 3rem;
-    box-shadow:
-      -8px -8px 16px rgba(0, 0, 0, 0.1),
-      8px 8px 16px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--poster-shadow);
   }
 
   .movie-status {
@@ -394,9 +317,7 @@
     padding: 2.5rem 3.75rem;
     text-align: left;
     max-width: 68.75rem;
-    box-shadow:
-      inset 10px 10px 20px rgba(0, 0, 0, 0.1),
-      inset -5px -5px 15px rgba(255, 255, 255, 0.9);
+    box-shadow: var(--neumorphic-inner-large);
   }
 
   .description-card p {

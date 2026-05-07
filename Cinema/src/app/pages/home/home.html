@@ -1,1 +1,26 @@
-<p>home works!</p>
+<app-featured-movie [poster]="featuredMovie()?.poster??''" [title]="featuredMovie()?.title??''"
+    [description]="featuredMovie()?.description??''"></app-featured-movie>
+<h1 class="now-showing-title">Now Showing</h1>
+<div class="now-showing">
+    @for (movie of nowShowingMovies(); track movie._id) {
+    <app-movie-card [poster]="movie.poster" [title]="movie.title" [rating]="movie.rating"
+        [metadata]="`${movie.genre.join(', ')} — ${movie.duration}`"></app-movie-card>
+    }
+</div>
+<h1 class="features-title">Ultra-Luxe Experiences</h1>
+<div class="features">
+    <app-feature-card [iconUrl]="'food icon.svg'" [featureName]="'Gourmet Dining'"
+        [featureDescription]="'In-seat service featuring artisan\n snacks, small\n plates, and craft beverages\n delivered silently.'"></app-feature-card>
+    <app-feature-card [iconUrl]="'vip lounges icon.svg'" [featureName]="'VIP Lounges'"
+        [featureDescription]="'Full reclining leather seats\n with heating, private\n side tables, and exclusive\n lounge access.'"></app-feature-card>
+    <app-feature-card [iconUrl]="'imax laser icon.svg'" [featureName]="'IMAX Laser'"
+        [featureDescription]="'Next-generation 4K laser\n projection with 12-\n channel immersive sound system\n for total clarity.'"></app-feature-card>
+</div>
+
+<h1 class="upcoming-title">Upcoming Blockbusters</h1>
+<div class="upcoming">
+    @for (movie of upcomingMovies(); track movie._id) {
+    <app-upcoming-card [poster]="movie.poster" [releaseDate]="(movie.releaseDate | date:'yyyy-MM-dd')??''"
+        [title]="movie.title" [description]="movie.description"></app-upcoming-card>
+    }
+</div>

@@ -1,18 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType, Chart, registerables } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { StatCard } from "../../components/stat-card/stat-card";
-import { RouterLink } from "@angular/router";
+import { AddMovie } from "../../components/add-movie/add-movie";
+import { EditMovie } from "../../components/edit-movie/edit-movie";
+import { CommonModule } from "@angular/common";
+import { Movie } from '../../models/cinema.models';
+import { MovieService } from '../../services/movie.service';
+import { ToasterService } from '../../services/toaster.service';
 
 Chart.register(...registerables);
 
 @Component({
   selector: 'app-admin-panel',
-  imports: [StatCard,BaseChartDirective],
+  imports: [StatCard, BaseChartDirective, AddMovie, EditMovie, CommonModule],
   templateUrl: './admin-panel.html',
   styleUrl: './admin-panel.css',
 })
-export class AdminPanel {
+export class AdminPanel implements OnInit {
+  private movieService = inject(MovieService);
+  private toaster = inject(ToasterService);
+  private cdr = inject(ChangeDetectorRef);
+
+  searchTerm = '';
+  showAllMoviesModal = false;
+
   // Chart configuration
   public doughnutChartLabels: string[] = ['Mobile', 'Web', 'Kiosk'];
   public doughnutChartData: ChartData<'doughnut'> = {
@@ -77,35 +89,12 @@ export class AdminPanel {
     }
   ];
 
-  movies = [
-    {
-      title: 'Chronicles of Night',
-      duration: '142 mins',
-      rating: 'PG-13',
-      genre: 'Sci-Fi',
-      releaseDate: 'Oct 12, 2024',
-      status: 'Showing',
-      thumbnail: '/spiderman.jpg'
-    },
-    {
-      title: 'The Silent Echo',
-      duration: '118 mins',
-      rating: 'R',
-      genre: 'Thriller',
-      releaseDate: 'Sep 28, 2024',
-      status: 'Showing',
-      thumbnail: '/spiderman.jpg'
-    },
-    {
-      title: 'Skyward Bound',
-      duration: '95 mins',
-      rating: 'G',
-      genre: 'Animation',
-      releaseDate: 'Nov 05, 2024',
-      status: 'Upcoming',
-      thumbnail: '/spiderman.jpg'
-    }
-  ];
+  tableMovies: Movie[] = []; // Used for the main table (limited to 5)
+  modalMovies: Movie[] = []; // Used for the "All Movies" modal
+  isLoadingMovies = false;
+  isLoadingModal = false;
+  modalLimit = 10;
+  hasMoreModalMovies = true;
 
   popularMovies = [
     { title: 'Chronicles of Night', occupancy: 88 },
@@ -113,4 +102,124 @@ export class AdminPanel {
     { title: 'Midnight Runner', occupancy: 42 },
     { title: 'Galactic Odyssey', occupancy: 30 }
   ];
+
+  showAddMovieModal = false;
+  showEditMovieModal = false;
+  selectedMovie: Movie | null = null;
+
+  ngOnInit(): void {
+    // Load initial 5 movies for the main table
+    this.loadMovies();
+  }
+
+  loadMovies() {
+    this.isLoadingMovies = true;
+    const params: any = { limit: 5 };
+    if (this.searchTerm) params.search = this.searchTerm;
+
+    this.movieService.getAll(params).subscribe({
+      next: (res) => {
+        const data = res.data || [];
+        // Apply client-side slice as a fallback to ensure exactly 5 movies are shown
+        this.tableMovies = data.slice(0, 5);
+        this.isLoadingMovies = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.isLoadingMovies = false;
+        this.cdr.detectChanges();
+        this.toaster.error(err?.error?.message || 'Failed to load movies.');
+      }
+    });
+  }
+
+  loadModalMovies() {
+    this.isLoadingModal = true;
+    const params: any = { limit: this.modalLimit };
+    if (this.searchTerm) params.search = this.searchTerm;
+
+    this.movieService.getAll(params).subscribe({
+      next: (res) => {
+        const data = res.data || [];
+        // If backend supports limit, data.length will be <= modalLimit. 
+        // We check res.count to see if there's more on the server.
+        // If backend doesn't support limit, data.length will be total count.
+        
+        if (res.count !== undefined) {
+          this.modalMovies = data; // Backend already limited it
+          this.hasMoreModalMovies = data.length < res.count;
+        } else {
+          // Fallback for backends without count or limit support
+          this.modalMovies = data.slice(0, this.modalLimit);
+          this.hasMoreModalMovies = data.length > this.modalLimit;
+        }
+        this.isLoadingModal = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.isLoadingModal = false;
+        this.cdr.detectChanges();
+        this.toaster.error(err?.error?.message || 'Failed to load all movies.');
+      }
+    });
+  }
+
+  loadMoreModalMovies() {
+    this.modalLimit += 5;
+    this.loadModalMovies();
+  }
+
+  openAddMovie() {
+    this.showAddMovieModal = true;
+  }
+
+  closeAddMovie() {
+    this.showAddMovieModal = false;
+  }
+
+  openEditMovie(movie: Movie) {
+    this.selectedMovie = movie;
+    this.showEditMovieModal = true;
+  }
+
+  closeEditMovie() {
+    this.showEditMovieModal = false;
+    this.selectedMovie = null;
+  }
+
+  onSearch(value: string) {
+    this.searchTerm = value;
+    this.loadMovies();
+    if (this.showAllMoviesModal) {
+      this.loadModalMovies();
+    }
+  }
+
+  openAllMovies() {
+    this.modalLimit = 10;
+    this.loadModalMovies();
+    this.showAllMoviesModal = true;
+  }
+
+  closeAllMovies() {
+    this.showAllMoviesModal = false;
+  }
+
+  deleteMovie(movie: Movie) {
+    if (!movie?._id) return;
+    this.movieService.delete(movie._id).subscribe({
+      next: () => {
+        this.toaster.success(`Movie "${movie.title}" deleted successfully!`);
+        this.loadMovies();
+        if (this.showAllMoviesModal) {
+          this.loadModalMovies();
+        }
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.cdr.detectChanges();
+        this.toaster.error(err?.error?.message || 'Failed to delete movie.');
+      }
+    });
+  }
 }

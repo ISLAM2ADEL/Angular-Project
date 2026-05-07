@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllUsers, deleteUser } from "../controllers/user.controller.js";
+import { getAllUsers, deleteUser, getUserProfile } from "../controllers/user.controller.js";
 import { protect, authorize } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
@@ -10,6 +10,24 @@ const router = express.Router();
  *   name: Users
  *   description: User management APIs (Admin only)
  */
+
+/**
+ * @swagger
+ * /api/v1/users/profile:
+ *   get:
+ *     summary: Get logged-in user profile
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: User profile retrieved successfully
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: User not found
+ */
+router.get("/profile", protect, getUserProfile);
 
 /**
  * @swagger

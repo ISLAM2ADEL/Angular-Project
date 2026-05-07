@@ -1,0 +1,20 @@
+<div class="card-container">
+    <div class="image-wrapper">
+        <img [src]="poster">
+
+        <div class="rating-badge">
+            <img src="star icon.svg">
+            <span >{{ rating }}</span>
+        </div>
+    </div>
+
+    <div class="card-content">
+        <h3 class="title">{{ title }}</h3>
+        <p class="subtitle">{{ genre }} — {{ duration }}</p>
+
+        <div class="footer">
+            <span class="vip-text">VIP Lounge</span>
+            <button class="book-btn">Book Now</button>
+        </div>
+    </div>
+</div>

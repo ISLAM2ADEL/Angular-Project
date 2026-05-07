@@ -1,6 +1,6 @@
-import stripe from "../config/stripe.js";
 import Payment from "../models/paymentModel.js";
 import Booking from "../models/bookingModel.js";
+import CinemaWallet from "../models/cinemaWalletModel.js";
 
 const createPaymentIntent = async (req, res) => {
   try {
@@ -17,22 +17,9 @@ const createPaymentIntent = async (req, res) => {
       return res.status(403).json({ message: "Unauthorized" });
     }
 
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(payment.amount * 100),
-      currency: payment.currency.toLowerCase(),
-      metadata: {
-        bookingId: bookingId.toString(),
-        paymentId: payment._id.toString(),
-      },
-    });
-
-    payment.stripePaymentIntentId = paymentIntent.id;
-    payment.stripeClientSecret = paymentIntent.client_secret;
-    await payment.save();
-
     res.status(200).json({
-      clientSecret: paymentIntent.client_secret,
-      paymentIntentId: paymentIntent.id,
+      clientSecret: "fake_client_secret_" + payment._id,
+      paymentId: payment._id,
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -41,20 +28,9 @@ const createPaymentIntent = async (req, res) => {
 
 const confirmPayment = async (req, res) => {
   try {
-    const { paymentIntentId } = req.body;
+    const { paymentId } = req.body;
 
-    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-
-    if (paymentIntent.status !== "succeeded") {
-      return res.status(400).json({
-        message: "Payment not succeeded",
-        status: paymentIntent.status,
-      });
-    }
-
-    const payment = await Payment.findOne({
-      stripePaymentIntentId: paymentIntentId,
-    });
+    const payment = await Payment.findById(paymentId);
     if (!payment)
       return res.status(404).json({ message: "Payment record not found" });
 
@@ -62,10 +38,42 @@ const confirmPayment = async (req, res) => {
     await payment.save();
 
     const booking = await Booking.findById(payment.booking);
-    booking.status = "confirmed";
-    await booking.save();
+    if (booking) {
+      booking.status = "confirmed";
+      await booking.save();
+    }
 
-    res.json({ message: "Payment confirmed", booking });
+    // Increase amount of money of the cinema
+    let wallet = await CinemaWallet.findOne();
+    if (!wallet) {
+      wallet = new CinemaWallet({ totalRevenue: 0 });
+    }
+    wallet.totalRevenue += payment.amount;
+    wallet.lastUpdated = Date.now();
+    await wallet.save();
+
+    res.json({ message: "Payment confirmed (Fake API)", booking, payment });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const getUserPayments = async (req, res) => {
+  try {
+    const bookings = await Booking.find({ user: req.user.id }).select("_id");
+    const bookingIds = bookings.map(b => b._id);
+    
+    const payments = await Payment.find({ booking: { $in: bookingIds } })
+      .populate({
+        path: "booking",
+        populate: { path: "showtime" }
+      });
+
+    res.status(200).json({
+      success: true,
+      count: payments.length,
+      data: payments,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -74,4 +82,5 @@ const confirmPayment = async (req, res) => {
 export default {
   createPaymentIntent,
   confirmPayment,
+  getUserPayments
 };

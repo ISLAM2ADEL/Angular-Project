@@ -1,0 +1,90 @@
+.card-container {
+    display: flex;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 40px;
+    padding: 24px;
+    width: 350px;
+    box-shadow: var(--shadow-soft);
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .card-container {
+        width: min(100%, 350px);
+        padding: 16px;
+        margin-inline: auto;
+    }
+
+    .content {
+        margin-left: 16px;
+    }
+
+    .title {
+        font-size: 1.25rem;
+    }
+}
+
+.card-container:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-deep);
+}
+
+.image-wrapper img {
+    width: 140px;
+    height: 140px;
+    border-radius: 30px;
+    object-fit: contain;
+    display: block;
+    box-shadow: var(--shadow-soft);
+}
+
+.content {
+    margin-left: 24px;
+}
+
+.release-date {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--primary-accent-700);
+    letter-spacing: 0.5px;
+}
+
+.title {
+    font-size: 1.5rem;
+    margin: 8px 0;
+    color: var(--text-main);
+    font-weight: 700;
+}
+
+.description {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 70px;
+}
+
+.remind-btn {
+    background: none;
+    border: none;
+    color: var(--primary-accent-800);
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    transition: opacity 0.2s;
+}
+
+.remind-btn:hover {
+    opacity: 0.8;
+}
+
+.bell-icon {
+    margin-left: 6px;
+    font-size: 14px;
+}
