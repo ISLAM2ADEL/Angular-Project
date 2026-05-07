@@ -16,9 +16,9 @@
     <div class="actions">
       <app-button variant="icon-only" iconPath="theme icon.svg" (btnClick)="changeTheme()"></app-button>
       @if(isUserLoggedIn) {
-        <app-button [routerLink]="isAdmin ? '/admin-panel' : '/profile'" 
-                    [label]="isAdmin ? 'Admin Panel' : 'Profile'" 
-                    [iconPath]="isAdmin ? 'magic.svg' : 'sign up icon.svg'" 
+        <app-button [routerLink]="isAdmin ? '/admin-panel' : '/profile'"
+                    [label]="isAdmin ? 'Admin Panel' : 'Profile'"
+                    [iconPath]="isAdmin ? 'magic.svg' : 'sign up icon.svg'"
                     variant="secondary"></app-button>
         <app-button label="Logout" iconPath="logout-02.svg" variant="secondary" (btnClick)="logOut()"></app-button>
       } @else {
@@ -52,10 +52,12 @@
             <span>Admin Panel</span>
           </button>
         }
+        @if(!isAdmin) {
         <button class="mobile-menu-item" type="button" (click)="navigateTo('/profile')">
           <span class="mobile-menu-icon" style="-webkit-mask-image:url('sign up icon.svg'); mask-image:url('sign up icon.svg');"></span>
           <span>Profile</span>
         </button>
+        }
         <button class="mobile-menu-item" type="button" (click)="changeTheme()">
           <span class="mobile-menu-icon" style="-webkit-mask-image:url('theme icon.svg'); mask-image:url('theme icon.svg');"></span>
           <span>Dark Mode</span>
